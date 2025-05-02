@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .mega-menu {
+          grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+        @media (max-width: 768px) {
+          .mega-menu {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom style for lightbox transition */
+      .lightbox {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .lightbox-image-container {
+        transition: transform 0.3s ease;
+        transform: scale(0.95);
+      }
+      .lightbox.active .lightbox-image-container {
+        transform: scale(1);
+      }
+      .swipe-left {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      .swipe-right {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      /* Hide arrows on mobile */
+      @media (max-width: 768px) {
+        .desktop-arrows {
+          display: none !important;
+        }
+      }
+      .image-container img {
+        display: block !important;
+        border: 2px solid black !important;
+        position: relative !important;
+        z-index: 1 !important;
+        transform: translateZ(0) !important;
+      }
+    </style>
+
+    <title>GroupPhotos</title>
+  </head>
+  <body>
+    <main>
+      <div id="navbar-container"></div>
+      <script>
+        // Improved fetch implementation
+        async function loadNavbar() {
+          const response = await fetch("navbar.html");
+          const html = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+
+          // Insert navbar HTML
+          document.getElementById("navbar-container").innerHTML =
+            doc.querySelector("body").innerHTML;
+        }
+        loadNavbar();
+      </script>
+      <script>
+        // Navbar functionality for all pages
+        document.addEventListener("DOMContentLoaded", function () {
+          // Mobile menu toggle
+          document.addEventListener("click", function (e) {
+            // Handle mobile menu button
+            if (e.target.closest("#mobile-menu-button")) {
+              const mobileMenu = document.getElementById("mobile-menu");
+              mobileMenu.classList.toggle("hidden");
+              e.preventDefault();
+            }
+
+            // Handle mobile dropdown buttons
+            const dropdownButtons = [
+              "mobile-event-button-SchoolEvent",
+              "mobile-event-button-Class",
+              "mobile-event-button-YBArchives",
+            ];
+
+            if (dropdownButtons.some((id) => e.target.closest(`#${id}`))) {
+              const buttonId = e.target.closest("[id]").id;
+              const menuId = buttonId.replace("button", "menu");
+              const menu = document.getElementById(menuId);
+              if (menu) {
+                menu.classList.toggle("hidden");
+              }
+              e.preventDefault();
+            }
+
+            // Close dropdowns when clicking outside
+            if (
+              !e.target.closest(".relative") &&
+              !e.target.closest("#mobile-menu-button")
+            ) {
+              document
+                .querySelectorAll('[id^="mobile-event-menu"]')
+                .forEach((menu) => {
+                  menu.classList.add("hidden");
+                });
+            }
+          });
+        });
+      </script>
+
+      <section class="bg-white flex items-center flex-col h-full w-full">
+        <h1 class="Title1 text-black">Group Photos</h1>
+        <style>
+          .Title1 {
+            font-family: "Mea Culpa", sans-serif;
+            font-weight: bold;
+            font-size: 3rem;
+            margin-top: 5.75rem;
+          }
+        </style>
+        <div class="w-full h-fit">
+          <div class="p-5 sm:p-8">
+            <div
+              class="columns-1 gap-3 sm:columns-4 image-container sm:gap-8 md:columns-4 [&>img:not(:first-child)]:mt-8"
+            >
+              <!-- md:columns-3 lg:columns-4 -->
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144654/Penghuni_Flix_pk0of5.jpg"
+                alt="Penghuni Flix"
+                data-names="Bryan, Phoebe, Levi, Della, Keiko"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144654/Yohanes_boa8rd.jpg"
+                alt="Yohanes"
+                data-names="Ruben, Josiah, Zio, Gamaliel, Brandon, Togi, Zaki, Bryan, Darren, Zovan, Gerald, Levi, Felix, Kevin"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144650/beli_sepatu_th6o8u.jpg"
+                alt="Beli Sepatu"
+                data-names="Josephine, Jesselyn, Lynetta, Cheernline "
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144646/garlikrootukam_sjsap9.jpg"
+                alt="Garlikrootukam"
+                data-names="Beatrice, Della, Phoebe, Keiko"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144302/RuTe_actors_wd6tjl.jpg"
+                alt="Rute Actors"
+                data-names="Lynetta, Jeniffer, Jesselyn, Gracia, Lydia, Niavilda, Rayna, Zaki, John"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144338/%E4%B8%AD%E5%9B%BD%E5%92%8C%E5%8F%B0%E6%B9%BE_mpwr0l.jpg"
+                alt="中国和台湾"
+                data-names="Audrey, Cheernline, Trifena, Jared, Gracia, Trifosa"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144326/XY_dr_BKES_amp2ce.jpg"
+                alt="XY dr. BKES"
+                data-names="Timothy Riyanto, Josiah, Hosea, Zovan, John"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144324/%E5%A5%BD%E5%96%9C%E6%AC%A2%E4%BD%A0_gxrppb.jpg"
+                alt="好喜欢你"
+                data-names="Cheernline, Naomi, Josephine, Olivia"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144284/OSIS_i3urji.jpg"
+                alt="OSIS"
+                data-names="Daniella, Felicia, Angelica, Jesselyn, Divya, Olivia, Hoshi, Pak Ivandez, Josephine, Kaytleen, Andrea, Eirena, Levi, Juan"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144324/YGGA_cn5n9d.jpg"
+                alt="YGGA"
+                data-names=""
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144315/KTB_Ashiapp_sgyhmd.jpg"
+                alt="KTB Ashiapp"
+                data-names=""
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144316/tim_hd_tim_inti_eapbiv.jpg"
+                alt="Tim HD Tim Inti"
+                data-names=""
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144314/Smph_masyarakat_kel_10.1_iqvr2q.jpg"
+                alt="Smph masyarakat Kel 10.1"
+                data-names="Della, Hosea, Carmello, Keiko"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144299/miaw_bptbi1.jpg"
+                alt="Miaw"
+                data-names="Jeniffer, Hoshi, Niavilda, Jess Milly, Patricia Chandra, Clairine"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144290/Pasukan_Keraton_Ga_Dapet2_uo6qfj.jpg"
+                alt="Pasukan Keraton Ga Dapet2"
+                data-names="John, Hosea, Kaytleen, Carmello, Juan, Eirena, Olivia, Naomi, Josephine"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144284/MSGH_wpi1hy.jpg"
+                alt="MSGH"
+                data-names="Rayna, Naomi, Lydia, Olivia"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144283/ms_ruth_pz9vnc.jpg"
+                alt="Ms Ruth"
+                data-names="Jesselyn, Lynetta, Jeniffer, Cheernline, Bu Diana, Della, Kaytleen, Beatrice"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144279/mkn_tu_ikan_jgn_gengsi_vjvc9x.jpg"
+                alt="Mkn Tu Ikan Jgn Gengsi"
+                data-names="Beatrice, Zio, Zovan, Patricia Grace, Zovan, Felix, Emily Christabelle, Andrea, Levi "
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144281/Grup_6_11.1_uu6ikb.jpg"
+                alt="Grup 6 11.1"
+                data-names="Kevin, Josiah, Pierson, Vincent, Timothy Sitorus"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144276/Kelompok_ZONA_n0es6y.jpg"
+                alt="Kelompok ZONA"
+                data-names="Zovan, Olivia, Nini, Angelica"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144273/kel._bahan_pancake_f69u2v.jpg"
+                alt="Kel. Bahan Pancake"
+                data-names="Emily Christabelle, John, Della, Felicia"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144272/Kwek_kwek_xundik.jpg"
+                alt="Kwek Kwek"
+                data-names="Angelica, Nini, Trifosa, Shandy, Daniella, Trifena, Jocasta"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144265/Kel_5_12.1_hdlhb5.jpg"
+                alt="Kel 5 12.1"
+                data-names="Pierson, Clairine, Levi"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144249/Futsal_eqdnqe.jpg"
+                alt="Futsal"
+                data-names="Josiah, Gerald, Felix, Zaki, Darren, Ruben, Togi, Gamaliel, Kevin"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144272/mantan_celsi_UwU._dib1pt.jpg"
+                alt="Mantan Celsi UwU"
+                data-names="Gamaliel, Ruben, Kevin, Brandon, Togi"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144249/budak_dokum_lltorq.jpg"
+                alt="Budak Dokum"
+                data-names="Olivia, Daniella, Trifosa, Jocasta, Della"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144245/GENG_BTA_JAKSEL_st4z8w.jpg"
+                alt="Geng BTA Jaksel"
+                data-names="Keiko, Shandy, Lydia"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144264/geng_anak_mamak_eebqg5.jpg"
+                alt="Geng Anak Mamak"
+                data-names="Naomi, Della, Samantha, Jocasta, Rayna, Olivia"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144236/Basket_tg6ry2.jpg"
+                alt="Basket"
+                data-names="Levi, Zio, Brandon, Zovan"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144235/Ak_kenyang___ffz8ot.jpg"
+                alt="Ak Kenyang"
+                data-names="Divya, Della, Jeniffer"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144255/kelompok_1_budak_tugas_fxwofj.jpg"
+                alt="Kelompok 1 Budak Tugas"
+                data-names="Josephine, Maxwell, Trifosa"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144232/denise_c1djqh.jpg"
+                alt="Denise"
+                data-names=" Keiko, Cheernline"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144259/Demi_Nilai_OR_Bagus_vhprtx.jpg"
+                alt="Demi Nilai OR Bagus"
+                data-names="Davine, Eirena, Ghaudy, Gracia, Audrey, Divya"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144230/boys_at_the_back_rumbc7.jpg"
+                alt="Boys At the Back"
+                data-names="Felix, Brandon, Gamaliel, Bryan, Darren, Ruben, Gerald, Togi, Kevin"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144227/Anak_KTB_Bu_Maya_pl4xlx.jpg"
+                alt="Anak KTB Bu Maya"
+                data-names="Heidi, Shandy, Jocasta, Daniella, Bu Maya, Angelica"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144223/ART_thlvzh.jpg"
+                alt="ART"
+                data-names="Rayna, Angelica, Trifosa"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144313/kel_5_12.3_yfrlyr.jpg"
+                alt="Kel 5 12.3"
+                data-names="Jeniffer, Eirena, Cheernline, Davine"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144221/AESPAH_kqypnd.jpg"
+                alt="Aespah"
+                data-names="Andrea, Emily Christabelle, Heidi, Samantha, Patricia Grace"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144217/anak2_pak_denni_iqoygr.jpg"
+                alt="Anak2 Pak Denni"
+                data-names="Kelas 10.3"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746144210/12.4_tn1ttw.jpg"
+                alt="12.4"
+                data-names="Trifosa, Clairine, Josephine, Phoebe"
+                class="cursor-pointer border-2 border-black hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- Lightbox -->
+        <div
+          id="lightbox"
+          class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 lightbox hidden"
+        >
+          <div class="lightbox-content relative max-w-6xl w-full">
+            <!-- Close Button -->
+
+            <!-- Close Button - Add this inside your lightbox div -->
+            <button
+              onclick="closeLightbox()"
+              class="absolute -top-12 right-0 sm:top-2 sm:right-6 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all z-50"
+              aria-label="Close lightbox"
+            >
+              &times;
+            </button>
+            <!-- Lightbox Image Container -->
+            <div class="relative overflow-hidden">
+              <img
+                id="lightbox-image"
+                src=""
+                alt=""
+                class="lightbox-image max-h-[80vh] w-auto mx-auto rounded-lg shadow-xl"
+              />
+            </div>
+
+            <!-- DESKTOP-ONLY ARROWS -->
+            <button
+              onclick="navigateLightbox(-1)"
+              class="desktop-arrows absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 rounded-full hover:bg-opacity-70 focus:outline-none"
+            >
+              &larr;
+            </button>
+            <button
+              onclick="navigateLightbox(1)"
+              class="desktop-arrows absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 rounded-full hover:bg-opacity-70 focus:outline-none"
+            >
+              &rarr;
+            </button>
+
+            <!-- Caption -->
+            <div
+              id="lightbox-caption"
+              class="text-white text-center mt-4 text-2xl font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption"
+              class="text-white text-center mt-2 text-lg font-medium"
+            ></div>
+          </div>
+        </div>
+
+        <script>
+          // Get all gallery images
+          const galleryImages = document.querySelectorAll(".columns-1 img");
+          let currentIndex = 0;
+          let touchStartX = 0;
+          let touchEndX = 0;
+          const lightboxImage = document.getElementById("lightbox-image");
+
+          // Touch event handlers for swipe detection
+          function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+          }
+
+          function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+          }
+
+          function handleSwipe() {
+            const swipeThreshold = 50; // Minimum swipe distance in pixels
+
+            if (touchStartX - touchEndX > swipeThreshold) {
+              // Swipe left - next image
+              navigateLightbox(1, true);
+            } else if (touchEndX - touchStartX > swipeThreshold) {
+              // Swipe right - previous image
+              navigateLightbox(-1, true);
+            }
+          }
+
+          // Open lightbox
+          function openLightbox(imgElement) {
+            const lightbox = document.getElementById("lightbox");
+            const caption = document.getElementById("lightbox-caption");
+            const subcaption = document.getElementById("lightbox-subcaption");
+            // Set image and caption
+            lightboxImage.src = imgElement.src;
+            caption.textContent = imgElement.alt || "";
+            subcaption.textContent = imgElement.dataset.names || "";
+
+            // Find clicked image index
+            currentIndex = Array.from(galleryImages).indexOf(imgElement);
+
+            // Show lightbox with animation
+            lightbox.classList.remove("hidden");
+            setTimeout(() => {
+              lightbox.classList.add("active");
+            }, 10);
+
+            // Add touch event listeners
+            lightboxImage.addEventListener(
+              "touchstart",
+              handleTouchStart,
+              false
+            );
+            lightboxImage.addEventListener("touchend", handleTouchEnd, false);
+
+            // Prevent body scrolling
+            document.body.style.overflow = "hidden";
+          }
+          // Close lightbox function - Add this to your script
+          function closeLightbox() {
+            const lightbox = document.getElementById("lightbox");
+
+            // First remove active class for fade out animation
+            lightbox.classList.remove("active");
+
+            // After animation completes, hide completely
+            setTimeout(() => {
+              lightbox.classList.add("hidden");
+              document.body.style.overflow = ""; // Re-enable scrolling
+            }, 300); // Must match your CSS transition duration
+
+            // Clean up touch events
+            lightboxImage.removeEventListener("touchstart", handleTouchStart);
+            lightboxImage.removeEventListener("touchend", handleTouchEnd);
+          }
+
+          // Navigate between images (with swipe animation if isSwipe is true)
+          function navigateLightbox(direction, isSwipe = false) {
+            const newIndex = currentIndex + direction;
+
+            // Wrap around if at ends
+            if (newIndex < 0) currentIndex = galleryImages.length - 1;
+            else if (newIndex >= galleryImages.length) currentIndex = 0;
+            else currentIndex = newIndex;
+
+            const caption = document.getElementById("lightbox-caption");
+            const subcaption = document.getElementById("lightbox-subcaption");
+            const nextImage = galleryImages[currentIndex];
+
+            if (isSwipe) {
+              // Add swipe animation class
+              lightboxImage.classList.add(
+                direction > 0 ? "swipe-left" : "swipe-right"
+              );
+
+              // After animation completes, change image and reset position
+              setTimeout(() => {
+                lightboxImage.src = nextImage.src;
+                caption.textContent = nextImage.alt || "";
+                subcaption.textContent = nextImage.dataset.names || "";
+                lightboxImage.classList.remove("swipe-left", "swipe-right");
+              }, 400);
+            } else {
+              // Regular navigation without animation
+              lightboxImage.src = nextImage.src;
+              caption.textContent = nextImage.alt || "";
+              subcaption.textContent = nextImage.dataset.names || "";
+            }
+          }
+
+          // Keyboard navigation
+          document.addEventListener("keydown", function (e) {
+            const lightbox = document.getElementById("lightbox");
+            if (!lightbox.classList.contains("hidden")) {
+              if (e.key === "Escape") closeLightbox();
+              if (e.key === "ArrowLeft") navigateLightbox(-1);
+              if (e.key === "ArrowRight") navigateLightbox(1);
+            }
+          });
+        </script>
+      </section>
+    </main>
+  </body>
+</html>

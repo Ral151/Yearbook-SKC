@@ -1,0 +1,200 @@
+<!-- navbar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            schoolPrimary: "#2c3e50",
+            schoolSecondary: "#34495e",
+            schoolAccent: "#3498db",
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 w-full bg-schoolPrimary bg-blue-50 text-black shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo and School Name -->
+        <div class="flex items-center space-x-3 sm:ml-8 lg:ml-24">
+          <a href="index.html">
+            <img
+              src="https://sekolahkristencalvin.org/web/image/website/1/logo/Sekolah%20Kristen%20Calvin?unique=3b57578"
+              alt="School Logo"
+              width="150"
+              height="130"
+            />
+          </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-1">
+          <!-- School Event Dropdown -->
+          <div class="relative group px-6 font-serif">
+            <button class="py-2 hover:bg-schoolSecondary rounded transition">
+              School Event
+            </button>
+            <!-- Mega Menu -->
+            <div class="absolute w-[500px] h-[210px] bg-blue-50 text-gray-800 shadow-xl rounded-b-lg hidden group-hover:block p-4">
+              <div class="flex justify-start flex-wrap mega-menu gap-x-10 gap-y-6 max-w-7xl mx-auto">
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">MPLS</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Glue Angkatan</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">P5 Pertama</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Fieldtrip 1</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Field Trip 2</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Live in</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Padang</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Glue 2023</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Glue 2024</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">P5 Study Tour</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Sports Day</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Retreat</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">P5 Terakhir</a>
+                </div>
+                <div class="w-20">
+                  <a href="" class="text-xs border-b border-gray-200 pb-2 mb-2">Perpisahan</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Nav Items -->
+          <div class="relative group px-6 font-serif">
+            <button class="py-2 hover:bg-schoolSecondary rounded transition">
+              Class
+            </button>
+            <div class="absolute w-64 bg-blue-50 text-gray-800 shadow-xl rounded-b-lg hidden group-hover:block p-4">
+              <div class="flex flex-row justify-start flex-wrap mega-menu gap-x-10 gap-y-6 max-w-7xl mx-auto">
+                <a href="">FMES</a>
+                <a href="">BKES</a>
+                <a href="">KGES</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative group px-6 font-serif">
+            <button class="py-2 hover:bg-schoolSecondary rounded transition">
+              Yearbook Archives
+            </button>
+            <div class="absolute w-64 bg-blue-50 text-gray-800 shadow-xl rounded-b-lg hidden group-hover:block p-4">
+              <div class="flex flex-row justify-start flex-wrap mega-menu gap-x-10 gap-y-6 max-w-7xl mx-auto">
+                <a class="font-serif text-sm" href="">Teachers</a>
+                <a class="font-serif text-sm" href="GroupPhotos.html">Group Photos</a>
+              </div>
+            </div>
+          </div>
+          
+          <a href="#" class="px-6 py-2 font-serif hover:bg-schoolSecondary rounded transition">
+            Soft Copy Yearbook
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="p-2 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-schoolSecondary pb-4">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <!-- Mobile menu items here (same as your original) -->
+          <div class="relative px-3 py-2">
+            <button id="mobile-event-button-SchoolEvent" class="w-full text-left rounded-md text-white hover:bg-schoolPrimary flex justify-between items-center">
+              School Event
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div id="mobile-event-menu-SchoolEvent" class="hidden pl-4 mt-2 space-y-2">
+              <div class="grid grid-cols-3 h-56">
+                <div><a href="" class="text-xs border-b font-serif border-gray-200 pb-2 mb-2">MPLS</a></div>
+                <!-- Other menu items -->
+              </div>
+            </div>
+          </div>
+          <!-- Other mobile menu items -->
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Mobile dropdown toggles
+      const dropdowns = [
+        { button: 'mobile-event-button-SchoolEvent', menu: 'mobile-event-menu-SchoolEvent' },
+        { button: 'mobile-event-button-Class', menu: 'mobile-event-menu-Class' },
+        { button: 'mobile-event-button-YBArchives', menu: 'mobile-event-menu-YBArchives' }
+      ];
+
+      dropdowns.forEach(dropdown => {
+        const button = document.getElementById(dropdown.button);
+        const menu = document.getElementById(dropdown.menu);
+        if (button && menu) {
+          button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('hidden');
+          });
+        }
+      });
+
+      // Close menus when clicking outside
+      document.addEventListener('click', function() {
+        dropdowns.forEach(dropdown => {
+          const menu = document.getElementById(dropdown.menu);
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
