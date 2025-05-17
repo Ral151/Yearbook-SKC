@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .mega-menu {
+          grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+        @media (max-width: 768px) {
+          .mega-menu {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom style for lightbox transition */
+      .lightbox {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .lightbox-image-container {
+        transition: transform 0.3s ease;
+        transform: scale(0.95);
+      }
+      .lightbox.active .lightbox-image-container {
+        transform: scale(1);
+      }
+      .swipe-left {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      .swipe-right {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      /* Hide arrows on mobile */
+      @media (max-width: 768px) {
+        .desktop-arrows {
+          display: none !important;
+        }
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        .columns-1 img:hover,
+        .lightbox-image:hover {
+          cursor: pointer;
+        }
+      }
+
+      .image-container img {
+        display: block !important;
+        border: 2px solid black !important;
+        position: relative !important;
+        z-index: 1 !important;
+        transform: translateZ(0) !important;
+      }
+    </style>
+    <title>Teachers</title>
+  </head>
+  <body>
+    <div id="navbar-container"></div>
+    <script>
+      // Improved fetch implementation
+      async function loadNavbar() {
+        const response = await fetch("navbar.html");
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        // Insert navbar HTML
+        document.getElementById("navbar-container").innerHTML =
+          doc.querySelector("body").innerHTML;
+      }
+      loadNavbar();
+    </script>
+    <script>
+      // Navbar functionality for all pages
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        document.addEventListener("click", function (e) {
+          // Handle mobile menu button
+          if (e.target.closest("#mobile-menu-button")) {
+            const mobileMenu = document.getElementById("mobile-menu");
+            mobileMenu.classList.toggle("hidden");
+            e.preventDefault();
+          }
+
+          // Handle mobile dropdown buttons
+          const dropdownButtons = [
+            "mobile-event-button-SchoolEvent",
+            "mobile-event-button-Class",
+            "mobile-event-button-YBArchives",
+          ];
+
+          if (dropdownButtons.some((id) => e.target.closest(`#${id}`))) {
+            const buttonId = e.target.closest("[id]").id;
+            const menuId = buttonId.replace("button", "menu");
+            const menu = document.getElementById(menuId);
+            if (menu) {
+              menu.classList.toggle("hidden");
+            }
+            e.preventDefault();
+          }
+
+          // Close dropdowns when clicking outside
+          if (
+            !e.target.closest(".relative") &&
+            !e.target.closest("#mobile-menu-button")
+          ) {
+            document
+              .querySelectorAll('[id^="mobile-event-menu"]')
+              .forEach((menu) => {
+                menu.classList.add("hidden");
+              });
+          }
+        });
+      });
+    </script>
+
+    <main class="bg-white flex items-center flex-col h-full w-full">
+      <h1 class="Title1 text-black">Our Teachers</h1>
+      <style>
+        .Title1 {
+          font-family: "Mea Culpa", sans-serif;
+          font-weight: bold;
+          font-size: 3rem;
+          margin-top: 6rem;
+        }
+      </style>
+      <section class="flex items-center flex-col w-full h-full">
+        <div class="border-2 p-5 sm:p-8 border-black inline-block">
+          <img
+            class="w-full h-[40 0px] object-cover"
+            src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351285/DSC02645_1_mfyxcd.jpg"
+            alt="Main Photo"
+            height=""
+          />
+        </div>
+        <aside
+          class="w-full p-5 relative h-64 sm:h-[410px] flex items-end sm:p-8"
+        >
+          <div class="sm:w-1/2 w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full cursor-pointer object-cover object-center block"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351257/-6_2_kyzib4.jpg"
+              alt="Bahasa Inggris"
+              onclick="openLightbox(this)"
+              data-names="An Open Letter to the Most Ambitious Batch.
+              Dear Batch 14, 
+              For three years, I have given you the most challenging assignments and tough questions, like the TED talk, literary analysis, and infamous portfolio. In each one, you exceeded expectations again and again. 
+              Thank you for the memory moments we could share in class. My favorite is witnessing your aha moments during Socratic Seminars and conferencing sessions. I’ve never had this much fun teaching English (don’t tell the other batches). 
+              I’m proud to see all your positive contrasts and contradictions since grade 10, and I can’t wait to notice and note what further character development God will author into your life! 
+              My prayer is that you may always know, live, and love these words of the wiser: 
+              “Greater love hath no man than this, that a man lay down his life for his friends.”
+              Literally, 
+              Your high school English teacher ~ Ms. Yovela
+
+              
+              "
+              data-names2="Yang saya ingat dari angkatan 14 adalah… komplain dan keluh kesah kalian saat di P5 hahah. Saya sudah lupa nama projectnya, tapi beberapa bentuknya masih ingat, seperti Box-of-Love-nya kelompok Hoshi yang viral tapi saya lupa dampaknya tercapai atau tidak, pertemuan refugee-nya kelompok Juan yang over-employed human resources, Educare kelompoknya Keiko yang kita naik kereta bareng dan jalan ke RMCI di tengah gerimis sambil gotong speaker, Escape Room kelompoknya Levi(?) yang revisi terus sampai hampir tidak eksekusi, dan something about sosmed-nya kelompok Ern yang pecah kelompok akhirnya. Ide gila seperti bikin jokes pinggir jurangnya kelompok Bryan juga berkesan. Walaupun itu kesannya negatif dan tidak enak, tapi justru berkesan, dan looking back, ada yang bisa dipelajari dan diketawain. Ya… Memang begitulah hidup. Keep living, guys. Face the challenges and embrace the discomfort, because those are what’s truly precious.
+
+              Shoutout juga ke mantan pengurus OSIS 22/23, Felis, Clairine, Dea, dan Oderei. Those are good memories (for me… hope for you guys too ya hahahah) ~ Mr. Remus"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">BAHASA INGGRIS</p>
+              <p class="text-black">Pak Remus</p>
+              <p class="text-black">Ms. Yovela</p>
+            </div>
+            <img
+              class="w-72 h-72 absolute -bottom-12 right-2"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747320143/28_aig725.png"
+              alt="bantal"
+            />
+            <img
+              class="w-56 h-56 absolute top-2 right-0"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747320144/29_uqwfma.png"
+              alt="sofa-bantal"
+            />
+            <img
+              class="w-52 rotate-180 h-52 absolute top-0 right-48"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747320145/26_walfiw.png"
+              alt="post-it"
+            />
+            <img
+              class="w-52 h-52 absolute bottom-0 left-32 rotate-[-35deg]"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747320148/39_fbpss4.png"
+              alt="sold"
+            />
+            <img
+              class="w-52 h-52 absolute top-0 left-6"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747320144/27_iio4lc.png"
+              alt="lilin"
+            />
+          </div>
+        </aside>
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-bottom cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351250/-5_kurdvz.jpg"
+              alt="Bahasa Indonesia"
+              onclick="openLightbox(this)"
+              data-names="Dua
+            tahun mengajar kalian (dari kelas 10 sampai 11) terasa seperti dua
+            hari. Mengapa? Karena antusias kalian, respons kalian saat
+            pembelajaran, membuat ibu bergairah sampai tak sadar tahu-tahunya
+            ibu sudah tak mengajar kalian lagi :ᗡ Namun, ada kalanya juga
+            angkatan ini membuat ibu sering mengelus dada, ada saja gebrakan
+            barunya. Mulai dari ketahuan bermain sosmed saat jam pelajaran,
+            beranekdot sebagai pelampiasan mengeluarkan unek-unek, sampai tidak
+            mengumpulkan tugas akhir karena lupa. Ibu jadi teringat dengan
+            slogan permen nano-nano, ''Manis-asam-asin, ramai rasanya!'' Demikian
+            juga kalian dalam kehidupan ibu, banyak rasanya! Terima kasih ya
+            sudah menaruh rasa nano-nano dalam hidup ibu (biar tidak pahit
+            terus) :D. ''Jangan seorang pun menganggap engkau rendah karena engkau muda. Jadilah teladan bagi orang-orang percaya, dalam perkataanmu, dalam tingkah lakumu, dalam kasihmu, dalam kesetiaanmu, dan dalam kesucianmu.'' 
+            -1 Timotius 4:12- ~ Ibu Christy"
+              data-names2="Hebat dan Memukau. Dua kata tersebut,
+            menurut saya sangat tepat untuk angkatan 14. Saya katakan hebat
+            karena kalian selalu berhasil memberikan yang terbaik dalam setiap
+            tanggung jawab yang diberikan, memukau karena relasi, kekompakan,
+            mau mendengar setiap masukan, dan kesehatian yang cukup baik. Namun,
+            angkatan kalian tidak lepas dari tantangan dan perselisihan, semoga
+            setiap tantangan dan masalah yang telah dilalui menjadi pembelajaran
+            di masa depan, kiranya kalian terus bertumbuh dan tetap dalam kasih
+            Kristus. Selamat menjelajahi dan mengarungi pahit manis kehidupan.
+            Salam hangat, ~ Ibu Ratna Hutagalung"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">BAHASA INDONESIA</p>
+              <p class="text-black">Bu Christy</p>
+              <p class="text-black">Bu Ratna</p>
+            </div>
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747412550/24_zf6luy.png"
+              alt="Mading"
+              class="w-80 h-80 absolute -bottom-8 right-12"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747412561/25_dk8oui.png"
+              alt="Rak"
+              class="w-64 h-64 absolute top-0 left-12"
+            />
+          </div>
+        </aside>
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-bottom cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351249/_DSF4984_oxepax.jpg"
+              alt="Sejarah Indonesia dan Kekristenan"
+              onclick="openLightbox(this)"
+              data-names="Angkatan 14, kalian bukan hanya belajar sejarah—kalian
+            telah menjadi bagian dari sejarah sekolah ini. Dalam tiap diskusi,
+            perbedaan pendapat, dan canda tawa di kelas, saya melihat ada
+            semangat untuk berpikir, peduli, dan terus bertumbuh. Seperti para
+            tokoh sejarah yang kita pelajari, kalian juga sedang menulis kisah
+            kalian sendiri. Teruslah melangkah dengan visi, dan semangat untuk
+            berdampak. Jangan takut membuat jejak, namun pastikan jejak itu
+            berarti. Sukses selalu untuk perjalanan kalian selanjutnya! ~ Pak
+            Kevin Simangungsong"
+              data-names2="It was truly a great delight to
+            teach you guys, you are really a lovely bunch! So thankful for the
+            privilege to teach you, kalian telah menambah berbagai macam warna
+            baru ke dalam hidup saya. May you never forget the lessons you
+            learned from SMAKC, biarlah menjadi bekal untuk perjalanan hidup
+            kalian selanjutnya. But most importantly, never forget that Jesus
+            loves you! Seperti almarhum Glenn Fredly katakan di batu nisannya,
+            ''Aku hanya debu yang sangat KAU cintai selamanya.'' Profound, isn't
+            it? THAT fact changes everything. Godspeed! (JF)"
+              data-names3="Kalian adalah angkatan yang menurut saya memiliki warna yang unik. Apa yang unik? Kalau bicara pergumulan untuk menjadi satu angkatan yang solid, setiap angkatan pasti mengalaminya. Bicara relasi satu dengan yang lain, angkatan yang lain pun sama. Di sisi lain, kalian memahami pentingnya relasi, dan menggumulkannya sebagai satu angkatan, dan kalian bisa menemukannya di dalam perjalanan kalian di SMA. Saya dapat melihat kalian mengejarnya di dalam pergumulan kalian, sampai menjadi satu lukisan yang utuh setelah semua kepingan puzzle berhasil menemukan posisinya di dalam gambar yang besar.
+
+            Pesan saya, jangan pernah lupa dengan angkatan kalian. Sekali pun setiap dari kalian akan pergi ke kampus yang berbeda, kuliah jurusan yang cukup beragam, dan sudah tentu menjalani jalan dengan cabang masing-masing, tetaplah ingat dan kembali. Kembalilah ke akar, yang sudah tertambatkan melalui masa SMA kalian di SMA Kristen Calvin, berpeganglah kepada pengharapan Salib Kristus yang telah menyatukan kalian dan menyertai kalian.
+            
+            Soli Deo Gloria. ~ Pak Hary Tafianoto"
+              data-names4="Hidup adalah sebuah kisah, dan penulis terbesar adalah Allah. Sesungguhnya kisah kita semua adalah kisah cinta dengan Allah Tritunggal. Kisah cinta seperti apa yang akan kalian tuliskan bersama-Nya? Cinta yang pasang surut tapi tetap bertumbuh karena diusahakan dalam kesetiaan pada Sang Terkasih? Atau cinta yang terus surut karena tidak dipupuk dan dipelihara, lalu berakhir dengan kesedihan kekal? Atau gabungan kedua kisah dengan berbagai gradasinya tapi di dalamnya terdapat banyak sesal? 
+
+            Doa dan harapan saya adalah kiranya kesetiaan Allah Tritunggal terus menopang cinta kalian untuk makin mengenal dan mengasihi-Nya di setiap milestone kisahmu dengan-Nya. Dan hanya untuk kemuliaan-Nya.
+            
+            Dengan kasih dan doa.
+            ~ Ibu Maya Sianturi"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">
+                SEJARAH INDONESIA DAN KEKRISTENAN
+              </p>
+              <p class="text-black">Pak Kevin</p>
+              <p class="text-black">Pak Jordan</p>
+              <p class="text-black">Pak Hary</p>
+              <p class="text-black">Bu Maya</p>
+            </div>
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747415447/18_jmd4dp.png"
+              alt="Buku Bergambar"
+              class="w-64 h-64 absolute -bottom-14 right-20"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747415445/49_fp7bzf.png"
+              alt="Mataram"
+              class="w-52 h-52 absolute top-0 -rotate-12 -left-6"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747415439/41_ueb0s8.png"
+              alt="SIM"
+              class="w-52 h-52 absolute top-12 -right-6"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747415521/36_gnvexf.png"
+              alt="Pohon"
+              class="w-52 h-52 absolute top-0 left-32"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747415521/46_b0f0mo.png"
+              alt="The Quartet Historian"
+              class="w-52 h-52 absolute top-0 right-32"
+            />
+          </div>
+        </aside>
+
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-center cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351487/-10_ninpxv.jpg"
+              alt="Matematika"
+              onclick="openLightbox(this)"
+              data-names="Selamat untuk setiap kalian yang sudah berhasil menyelesaikan masa studi kalian di SMA Calvin ini. Saya bersyukur untuk kesempatan belajar bersama dengan kalian dalam ruang kelas Matematika, baik di gedung lama maupun gedung baru. Semoga kesempatan belajar kalian ini menjadi pengalaman berharga bagi setiap kalian. Banyak dari kalian yang di awal pembelajaran Matematika memiliki hubungan yang tidak terlalu baik dengan mata pelajaran ini, tetapi meskipun demikian saya bersyukur karena bisa melihat sebagian dari kalian secara perlahan mulai belajar untuk menghadapi kesulitan kalian dan belajar untuk tetap bisa menikmati proses pembelajaran di kelas, meskipun saya tahu penuh dengan kesulitan dan perasaan kecewa juga. Bagi kalian yang sudah menikmati Matematika dari awal, saya berharap pengalamanmu melihat ke orang-orang di sekitarmu dan menolong mereka belajar menjadi sesuatu yang terus kamu pelihara. Dengan cara ini, kamu telah menjadi berkat bagi orang-orang di sekitarmu. Kiranya Tuhan terus menyertai perjalanan kalian semua. Selamat belajar. 🙂 ~ Pak Denni"
+              data-names2="Dear Angkatan-14 yang baik-baik,
+No wedding invitations for the next five years, please. Go to college, earn your degree, make your own money, and learn about real life. As your teacher, my task of teaching you is complete, but God is not done working in and through each of you. Don't leave Him for anything the world offers. Take care, and see you around! :D ~ Bu Novi"
+              data-names3="Pengalaman bersama Angkatan 14 lebih banyak diwakilkan oleh perasaan menyenangkan. Memori yang terekam bernuansa sukacita, seperti ketika berinteraksi di kelas, menyaksikan kinerja maksimal mereka dalam membuat tugas/proyek, semangat mereka belajar, apalagi melihat penampilan-penampilan mereka dalam berbagai acara. 
+Angkatan ini sudah ikut memberi warna bagi SMAKC, warna yang bervariasi tapi indah, dengan potensi dan prestasi mereka. Ada yang jago musik, matematika, melukis, menyanyi, menggambar, pidato, debat, basket, futsal, badminton, bermain peran, dan tidak lupa mereka yang berkarya melalui organisasi dan kepanitiaan acara. Komplit. Terasa sedih harus melepaskan mereka lulus. Hanya doa dan harapan semoga mereka senantiasa menjadi berkat di kuliah, kerja, di mana pun berada. Rasa syukur kepada Tuhan, karena pernah mengenal mereka, tapi terlebih karena keyakinan bersama di dalam Kerajaan Allah. Semoga Tuhan Yesus terus menyertai mereka. ~ Pak Jerol"
+              data-names4="Terima kasih sudah menjadi murid saya yang baik-baik. Saya berharap kalian juga setelah ini hidup baik-baik dengan memegang prinsip-prinsip kebenaran dan kasih. Jangan lupakan pelajaran-pelajaran yang kalian terima dari guru-guru kalian sekalipun kalian menganggapnya tidak penting. Maksimalkan talenta kalian untuk melayani masyarakat dan lingkungan. Siapa tahu dapat sedikit menunda zaman ini menuju kehancuran. ~ Pak Ari"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">MATEMATIKA</p>
+              <p class="text-black">Pak Denni</p>
+              <p class="text-black">Bu Novi</p>
+              <p class="text-black">Pak Jerol</p>
+              <p class="text-black">Pak Ari</p>
+            </div>
+            <img src="" alt="" class="w-80 h-80 absolute -bottom-8 right-12" />
+            <img src="" alt="" class="w-64 h-64 absolute top-0 left-12" />
+          </div>
+        </aside>
+
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-center cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747464290/pak_nobel_1_iaczhv.jpg"
+              alt="Sosiologi"
+              onclick="openLightbox(this)"
+              data-names="Salah satu angkatan yang cerdas dan kreatif, lucu dan menyenangkan. Semoga Tuhan membimbing kalian dalam tahap hidup berikutnya seperti kisah The Pilgrim's Progress. Bawalah sukacita dan terang Kristus ke mana pun kalian pergi. Tuhan Yesus memberkati. ~ Pak Kevin Nobel"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">SOSIOLOGI</p>
+              <p class="text-black">Pak Nobel</p>
+            </div>
+            <img src="" alt="" class="w-80 h-80 absolute -bottom-8 right-12" />
+            <img src="" alt="" class="w-64 h-64 absolute top-0 left-12" />
+          </div>
+        </aside>
+
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-center cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351295/-8_psjx6d.jpg"
+              alt="Ekonomi & Geografi"
+              onclick="openLightbox(this)"
+              data-names="Firman Tuhan adalah pelita bagi langkah kalian, teruslah berjalan dalam terang-Nya.
+Menyalaaa namun tetap ilmu padi.
+Ekonomi Indonesia harus semakin maju di saat kalian sudah dewasa nanti.
+Sangat bersyukur melihat pertumbuhan karakter kalian.
+
+Berikanlah yang terbaik, bukan untuk manusia, tapi untuk Tuhan yang melihat hati.
+Karena setiap dari kalian punya potensi untuk menjadi berkat.
+Es es apa yang suka bikin tugas refleksi? Eskaceee.
+Setiap kalian unik dan luar biasa.
+
+Konsistensi adalah koentji.
+Gas terus jangan kasi kendor.
+Expect for the best and prepare for the worst. 
+Selalu semangat, terus berproses, karena kelulusan ini bukanlah akhir, tetapi awal dari perjalanan makna. ~ Pak Ivandez"
+              data-names2="Rasanya baru kemarin saya berdiri di depan kelas memperkenalkan diri sebagai guru baru kalian. Waktu memang berlalu begitu cepat, dan hari ini kita harus berpisah.
+
+Meskipun saya hanya memiliki kesempatan singkat untuk mengenal kalian, enam bulan ini sangatlah berkesan. Saya melihat semangat dan potensi luar biasa dalam diri kalian. Kalian adalah generasi muda yang penuh harapan, dengan impian dan cita-cita yang tinggi.
+
+Saya percaya, setiap dari kalian memiliki keunikan dan talenta masing-masing. Jangan pernah ragu untuk mengembangkan diri, menggapai impian, dan memberikan yang terbaik dalam setiap langkah. Ingatlah selalu nilai-nilai Kristiani yang telah kalian pelajari di sekolah ini, jadikanlah itu sebagai pedoman hidup kalian.
+
+Mungkin saya tidak melihat seluruh perjalanan kalian di sekolah ini, tetapi saya yakin, fondasi yang telah ditanamkan di Sekolah Kristen Calvin akan menjadi bekal berharga untuk masa depan kalian. Jangan pernah lupakan kenangan indah yang telah kalian ukir di tempat ini.
+
+Saya berharap, di mana pun kalian berada, kalian akan selalu menjadi pribadi yang berintegritas, berbelas kasih, dan membawa dampak positif bagi dunia. Selamat jalan, anak-anakku. Tuhan memberkati langkah kalian dan See you when i see you.🩷. ~ Pak Justra"
+              data-names3="Semangat, cepat nangkap, dan kompak. Ini kesan saya terhadap angkatan yg muridnya paling banyak dalam sejarah SMA. Terus jaga kesehatian kalian semua setelah menjadi alumni. Kelak jika sudah berhasil ingat pada almamater utk kita bersama memajukan Calvin. ~ Pak Anthony"
+              data-names4="Bawel, sulit diatur, tapi bisa dipercaya. Bersyukurnya, kalian bertumbuh dan makin dewasa dan makin bisa mengontrol diri kalian sendiri, dari mulai waktu sampai ekspresi, yang bikin kalian makin bisa dipercaya. Jangan berhenti bertumbuh di dalam Tuhan dan semoga kalian selalu bijak dalam bertindak. Tuhan memberkati kalian selalu.
+Denise titip pesan: jangan lupain aku, bomlex, jamal, beer, bisco, kevin, toothless, vanilla, dan chrispine, ya. ~ Bu Laurent"
+              data-names6="Walau hanya sekejap (satu semester, dan itu pun bukan sepenuhnya kelas saya), saya bersyukur pernah menjadi bagian kecil dari perjalanan kalian—murid-murid yang berani dan penuh kreativitas. Meskipun waktu berikutnya kelas tak lagi menyatukan kita, kabar tentang kalian masih sering sampai ke telinga. Banyak tantangan yang kalian hadapi, satu per satu terlewati. Kini, kalian sampai di ujung kisah perjalanan di tempat ini. Namun, akhir dari suatu kisah akan menjadi awal bagi kisah yang baru. Tetap andalkan Tuhan dan berpegang pada firman-Nya di mana pun kalian berada dan untuk setiap kisah berikutnya. ~ Pak Rian"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">EKONOMI & GEOGRAFI</p>
+              <p class="text-black">Pak Ivandez</p>
+              <p class="text-black">Pak Justra</p>
+              <p class="text-black">Pak Anthony</p>
+              <p class="text-black">Bu Laurent</p>
+              <p class="text-black">Pak Rian</p>
+            </div>
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466783/48_epamjc.png"
+              alt="Turtle"
+              class="w-52 h-52 rotate-[30deg] absolute -bottom-8 right-12"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466786/14_kwimgu.png"
+              alt="Buku Geo"
+              class="w-52 h-52 absolute top-0 left-0"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466783/42_zpzxqd.png"
+              alt="Biorema"
+              class="w-44 h-44 absolute -bottom-8 left-32"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466783/15_rxcom2.png"
+              alt="Buku Gunung"
+              class="w-64 h-64 absolute -top-6 -rotate-90 right-20"
+            />
+          </div>
+        </aside>
+
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-center cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351270/-9_iqsoxf.jpg"
+              alt="Fisika"
+              onclick="openLightbox(this)"
+              data-names="Enam bulan
+            yang terlalu singkat... Kalian semua meninggalkan kesan yang
+            membekas. You guys are some really wonderful souls. Each really
+            unique in your own rights. My only regret is not knowing you sooner,
+            deeper, better. Wish I was able to do more for and with you,
+            struggle with more of your struggles, and utter more prayers for
+            you. Jangan tinggalkan masa-masa SMA ini dengan menyimpan kepahitan
+            yang kalian alami selama ini. Terlalu banyak hal yang akan kalian
+            lewatkan dan sia-siakan dengan terus menyimpan kepahitan itu. Jangan
+            pernah puas, teruslah kejar pertumbuhan. Bertumbuh terus dalam
+            pengetahuan, kasih, kedewasaan, iman, dan pengenalan akan Tuhan
+            karena pertumbuhan adalah tanda kalian hidup, tanda kalian sudah
+            benar-benar ditebus dan menghidupi keselamatan kalian semua.
+            Tangkaplah setiap momen, kesempatan, dan anugerah yang Tuhan
+            hadirkan di hidup kalian, semua itu tidak akan terulang lagi. ~ Pak
+            Phinsen"
+              data-names2="Tanpa terasa, sudah memasuki 3 tahun. Waktu
+            berjalan cepat ya. Saya ingat angkatan kalian adalah angkatan yang
+            pertama mengalami Kurikulum Merdeka ditambah dengan perubahan adanya
+            ''eksodus'' dari kemayoran ke Sunter, perubahan yang menantang cara
+            kalian untuk bertumbuh. Secara khusus, saya sempat pernah mengajar
+            kelas IPA. Satu kelas yang mayoritas adalah murid laki-laki.
+            Biasanya kelas demikian akan agak ''rusuh'', tetapi ternyata tidak
+            demikian. Murid IPA antusias belajar dan terus berjuang mendengarkan
+            saat Guru mengajar. Terima kasih untuk usaha kalian! Angkatan 14,
+            Kalian berhasil sejauh ini! Namun, kisah ini belum selesai. Tuhan
+            terus berkati langkah kalian ke depan. 
+            
+            Ingatlah bahwa Pendidikan bukan hanya masalah pengetahuan saja, tetapi bersama-sama kita makin mengenal diri dan terutama mengenal Tuhan.
+
+Teruslah setia, semangat, dan tekun dimana pun nanti kalian berasa. Doa saya dan para guru akan terus mengiringi perjalanan Kalian. ~ Pak Suntar"
+              data-names3="Dengan waktu
+            saya di SKC yang hanya sebentar, saya sangat bersyukur bisa bertemu
+            dengan angkatan kalian. Setelah menjadi guru, saya baru tahu kalau
+            mengajar itu sangat sulit. Tapi pasti lebih sulit menjadi murid yang
+            diajar oleh guru yang merasa mengajar itu sangat sulit..😅 Terima
+            kasih sudah menahan lelah dan tetap aktif, khususnya untuk kelas
+            FMES, yang membuat saya dipenuhi dengan semangat dan sukacita setiap
+            mengajar kalian (sebenernya ga selalu sih..). Namun, ketahuilah
+            kalau kegiatan belajar mengajar selalu bersifat dua arah, karena
+            saya pun belajar banyak dari kalian, dari setiap pertemuan dan
+            percakapan yang boleh kita dapatkan selama di sekolah. Proses
+            belajar tidak akan berhenti sepanjang hidup kita. Dengan begitu,
+            jangan lupa belajar untuk menikmati yang namanya belajar ya. Terima
+            kasih angkatan 14, saya berdoa Tuhan selalu menyertai kalian 😊 ~
+            Pak Jeremi"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">FISIKA</p>
+              <p class="text-black">Pak Phinsen</p>
+              <p class="text-black">Pak Suntar</p>
+              <p class="text-black">Pak Jeremi</p>
+            </div>
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466766/5_kscxfj.png"
+              alt="Bingkai Film"
+              class="w-52 h-52 absolute top-4 -left-12"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466766/7_vjsjyl.png"
+              alt="Pompa roket"
+              class="w-52 h-52 absolute bottom-24 right-14"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466766/3_adsv5l.png"
+              alt="Per"
+              class="w-44 h-44 absolute top-0 left-32"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466766/1_efvwjx.png"
+              alt="Tanaman"
+              class="w-44 h-44 absolute bottom-0 left-32"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747466768/46_pdsmmr.png"
+              alt="Groot"
+              class="w-44 h-44 absolute rotate-45 -bottom-6 right-0"
+            />
+          </div>
+        </aside>
+
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-center cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351252/-7_r9pzxi.jpg"
+              alt="Biologi & Kimia"
+              onclick="openLightbox(this)"
+              data-names="Materi dan puluhan bab pelajaran yang selama ini kalian
+            pelajari mungkin akan berakhir. Tetapi ada 2 langkah pasti
+            kedepannya mengenangnya dan melanjutkan dengan bab kehidupan yang
+            baru ~ Bu Rini"
+              data-names2="Tidak terasa sudah 3 tahun saya
+            bersama-sama angkatan 14 di SMAKC. Angkatan yang merasakan sekolah
+            di 2 lokasi berbeda, SKC Kemayoran (RMCI) dan SKC Sunter. Angkatan
+            yang pertama kali merasakan Kurikulum Merdeka dengan pemilihan
+            jurusan SMA yang baru. Saya melihat dan mengamati bahwa murid-murid
+            dari Angkatan 14 memiliki kemampuan dan bakat yang beragam dalam
+            berbagai bidang seperti sains, musik, olahraga, seni (art), debat,
+            bahasa, dan lainnya. Banyak dari antara kalian yang sangat niat
+            dalam membuat tugas dan dalam mengikuti acara-acara sekolah.
+            Lingkungan dan situasi di luar tidak cukup steril atau homogen
+            seperti yang kalian alami di SMAKC. Semakin dewasa, tantangan dan
+            pergumulan semestinya juga semakin berat. Kesempatan-kesempatan yang
+            dapat diraih juga akan mulai berdatangan dan banyak hal dapat
+            dicoba. Mintalah kepekaan dan bijaksana kepada Tuhan, Sang Pemberi
+            Anugerah, supaya kalian dapat memilih kesempatan dengan tepat.
+            Berikanlah pengaruh yang baik dan hiduplah berguna bagi orang di
+            sekitarmu. Selamat berjuang! ~ Bu Dorothy"
+              data-names3="Anak-anak
+            angkatan 14 yang terkasih, Tak terasa perjalanan kita dalam
+            ruang-ruang kelas Kimia telah sampai di penghujung. Selama ini, ibu
+            sangat diberkati bisa menjadi bagian dari cerita kalian -- angkatan
+            yang kreatif, penuh ide, dan punya semangat serta ketekunan. Kalian
+            bukan hanya pelajar, tapi juga penggerak: selalu punya inisiatif,
+            tak ragu mencoba hal baru, dan senang berbagi pemikiran. Banyak
+            momen kita lalui bersama: dari eksperimen di laboratorium, diskusi
+            seru di kelas, memasak bersama di ruang tata boga sambil memahami
+            reaksi Maillard, berkreasi menu antioksidan, membuat mascarpone,
+            hingga eksplorasi sekitar sekolah. Semua itu bukan sekedar belajar,
+            tapi membangun kenangan dan ikatan. Terima kasih karena telah
+            menjadi bagian dari perjalanan mengajar yang menyenangkan dan
+            bermakna. Kini kalian bersiap melangkah ke dunia baru: dunia kuliah,
+            dunia pencarian jati diri, dunia di mana pilihan dan nilai kalian
+            akan benar-benar diuji. Ingatlah, seperti dalam dunia kimia --
+            setiap reaksi memerlukan kondisi tertentu untuk bisa berjalan dengan
+            baik: suhu yang tepat, tekanan yang sesuai, dan tentu saja katalis
+            yang mempercepat proses tanpa mengubah dirinya. Dalam hidup, Iman
+            kalian kepada Kristus bisa menjadi katalis itu -- yang menjaga
+            kalian tetap teguh dan berfungsi di tengah perubahan. Baca &
+            ingatlah: 1 Timotius 4:12. Masa muda kalian adalah masa emas untuk
+            berkarya, bereksperimen, gagal, bangkit, dan terus belajar. Jangan
+            takut mencoba dan mengeksplorasi -- sebagaimana ilmuwan kimia tak
+            pernah berhenti bertanya ''mengapa'' dan ''bagaimana'', begitu juga
+            kalian: teruslah belajar dengan hati yang haus akan kebenaran dan
+            hikmat. Selamat melanjutkan perjalanan. Jadilah terang dan garam
+            dunia. Dan jangan lupa, Kimia itu seru -- seperti kalian! Dengan
+            kasih dan doa, Ibu Sintia"
+              data-names4="Selamat atas kelulusan kalian, Anak-anakku! Sudah banyak kisah kalian jalani; sudah banyak cara Orangtua/Bapak/Ibu guru lakukan untuk menggali bakat-talentamu; semua adalah untuk kebaikan kalian dalam pimpinan Tuhan. Jaga baik-baik imanmu pada Tuhan Yesus Kristus; semoga kiranya semua rencana baik Tuhan berlangsung atasmu. ~ Bu Yoosy"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">BIOLOGI & KIMIA</p>
+              <p class="text-black">Bu Rini</p>
+              <p class="text-black">Bu Dorothy</p>
+              <p class="text-black">Bu Cynthia</p>
+              <p class="text-black">Bu Yoosy</p>
+            </div>
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747468278/30_t0afc0.png"
+              alt="Maket"
+              class="w-52 h-52 absolute -bottom-8 -right-6"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747468299/39_wgons9.png"
+              alt="Sistem Reparasi"
+              class="w-44 h-44 absolute top-0 left-0"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747468299/40_ndghri.png"
+              alt="tengkorak"
+              class="w-48 h-48 absolute top-0 -rotate-[30deg] right-12"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747468278/42_najlfe.png"
+              alt="Proyek Minuman"
+              class="w-44 h-44 absolute -bottom-0 left-44"
+            />
+            <img
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747468278/20_mywqdd.png"
+              alt="Sayur"
+              class="w-52 h-52 absolute -top-8 right-52"
+            />
+          </div>
+        </aside>
+
+        <aside
+          class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
+        >
+          <div class="sm:w-1/2 sm:h-full w-full h-full overflow-hidden">
+            <img
+              class="w-full h-full object-cover object-center cursor-pointer"
+              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747464290/pak_nobel_1_iaczhv.jpg"
+              alt="Sosiologi"
+              onclick="openLightbox(this)"
+              data-names="Salah satu angkatan yang cerdas dan kreatif, lucu dan menyenangkan. Semoga Tuhan membimbing kalian dalam tahap hidup berikutnya seperti kisah The Pilgrim's Progress. Bawalah sukacita dan terang Kristus ke mana pun kalian pergi. Tuhan Yesus memberkati. ~ Pak Kevin Nobel"
+            />
+          </div>
+          <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
+            <div class="absolute bottom-0">
+              <p class="font-bold text-black">SOSIOLOGI</p>
+              <p class="text-black">Pak Nobel</p>
+            </div>
+            <img src="" alt="" class="w-80 h-80 absolute -bottom-8 right-12" />
+            <img src="" alt="" class="w-64 h-64 absolute top-0 left-12" />
+          </div>
+        </aside>
+
+        <!-- Lightbox -->
+        <div
+          id="lightbox"
+          class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center pt-24 sm:pt-6 p-4 lightbox"
+        >
+          <div class="lightbox-content relative p-3 sm:pr-6 max-w-6xl w-full">
+            <!-- Close Button -->
+
+            <!-- Close Button - Add this inside your lightbox div -->
+            <button
+              onclick="closeLightbox()"
+              class="fixed top-6 right-4 z-50 bg-white bg-opacity-80 hover:bg-opacity-100 text-white text-2xl w-14 h-14 rounded-full flex items-center justify-center md:top-6 md:right-6 md:w-12 md:h-12"
+            >
+              &times;
+            </button>
+            <!-- Lightbox Image Container -->
+            <div class="relative overflow-hidden">
+              <img
+                id="lightbox-image"
+                src=""
+                alt=""
+                class="lightbox-image max-h-[80vh] w-auto mx-auto rounded-lg shadow-xl"
+              />
+            </div>
+
+            <!-- Caption -->
+            <div
+              id="lightbox-caption"
+              class="text-white text-center mt-6 text-2xl font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption"
+              class="text-white text-justify mt-6 text-lg font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption2"
+              class="text-white text-justify mt-6 text-lg font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption3"
+              class="text-white text-justify mt-6 text-lg font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption4"
+              class="text-white text-justify mt-6 text-lg font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption5"
+              class="text-white text-justify mt-6 text-lg font-medium"
+            ></div>
+            <div
+              id="lightbox-subcaption6"
+              class="text-white text-justify text-lg font-medium"
+            ></div>
+          </div>
+        </div>
+        <style>
+          .lightbox-content {
+            overflow-y: hidden; /* Start hidden, changed to auto when opened */
+            max-height: 90vh; /* Adjust based on your needs */
+            overscroll-behavior: contain; /* Prevent scroll chaining */
+          }
+
+          .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden; /* Parent container never scrolls */
+          }
+        </style>
+        <script>
+          // Get all gallery images
+          const galleryImages = document.querySelectorAll(".columns-1 img");
+          let currentIndex = 0;
+          let touchStartX = 0;
+          let touchEndX = 0;
+          const lightboxImage = document.getElementById("lightbox-image");
+          const lightbox = document.getElementById("lightbox");
+          const lightboxContent = document.querySelector(".lightbox-content"); // Add this class to your lightbox content div
+
+          // Open lightbox
+          function openLightbox(imgElement) {
+            const caption = document.getElementById("lightbox-caption");
+            const subcaption = document.getElementById("lightbox-subcaption");
+            const subcaption2 = document.getElementById("lightbox-subcaption2");
+            const subcaption3 = document.getElementById("lightbox-subcaption3");
+            const subcaption4 = document.getElementById("lightbox-subcaption4");
+            const subcaption5 = document.getElementById("lightbox-subcaption5");
+            const subcaption6 = document.getElementById("lightbox-subcaption6");
+
+            // Set image and captions
+            lightboxImage.src = imgElement.src;
+            caption.textContent = imgElement.alt || "";
+            subcaption.textContent = imgElement.dataset.names || "";
+            subcaption2.textContent = imgElement.dataset.names2 || "";
+            subcaption3.textContent = imgElement.dataset.names3 || "";
+            subcaption4.textContent = imgElement.dataset.names4 || "";
+            subcaption5.textContent = imgElement.dataset.names5 || "";
+            subcaption6.textContent = imgElement.dataset.names6 || "";
+
+            // Find clicked image index
+            currentIndex = Array.from(galleryImages).indexOf(imgElement);
+
+            // Show lightbox with animation
+            lightbox.classList.remove("hidden");
+            setTimeout(() => {
+              lightbox.classList.add("active");
+            }, 10);
+
+            // Add touch event listeners
+            lightboxImage.addEventListener("touchstart", handleTouchStart, {
+              passive: true,
+            });
+            lightboxImage.addEventListener("touchend", handleTouchEnd, {
+              passive: true,
+            });
+
+            // Allow lightbox content scrolling
+            lightboxContent.style.overflowY = "auto";
+            lightboxContent.style.maxHeight = "90vh"; // Limit height with viewport units
+          }
+
+          // Close lightbox
+          function closeLightbox() {
+            // First remove active class for fade out animation
+            lightbox.classList.remove("active");
+
+            // After animation completes, hide completely
+            setTimeout(() => {
+              lightbox.classList.add("hidden");
+              document.body.style.overflow = ""; // Re-enable body scrolling
+              lightboxContent.style.overflowY = "hidden"; // Reset lightbox scrolling
+            }, 300);
+
+            // Clean up touch events
+            lightboxImage.removeEventListener("touchstart", handleTouchStart);
+            lightboxImage.removeEventListener("touchend", handleTouchEnd);
+          }
+
+          // Touch handlers
+          function handleTouchStart(e) {
+            touchStartX = e.touches[0].clientX;
+          }
+
+          function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].clientX;
+            handleSwipe();
+          }
+
+          function handleSwipe() {
+            // Only handle horizontal swipes when not scrolling vertically
+            if (lightboxContent.scrollTop === 0) {
+              const swipeThreshold = 50;
+              if (touchStartX - touchEndX > swipeThreshold) {
+                navigateLightbox(1); // Swipe left - next
+              } else if (touchEndX - touchStartX > swipeThreshold) {
+                navigateLightbox(-1); // Swipe right - previous
+              }
+            }
+          }
+
+          // Keyboard navigation
+          document.addEventListener("keydown", function (e) {
+            if (!lightbox.classList.contains("hidden")) {
+              if (e.key === "Escape") {
+                closeLightbox();
+              } else if (e.key === "ArrowLeft") {
+                navigateLightbox(-1);
+              } else if (e.key === "ArrowRight") {
+                navigateLightbox(1);
+              }
+            }
+          });
+        </script>
+      </section>
+    </main>
+  </body>
+</html>
