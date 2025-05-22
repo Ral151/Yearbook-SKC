@@ -163,18 +163,22 @@
       <section class="inline md:hidden">
         <div class="w-full h-full">
           <img
-              src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746176990/14_quwc8k.png"
-              alt=""
-              class="cursor-pointer border-black hover:opacity-90 transition-opacity object-cover sm:w-[590px] sm:h-[400px]"
-              onclick="openLightbox(this)"
-            />
+            id="MainPhoto1"
+            src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746176990/14_quwc8k.png"
+            alt=""
+            class="cursor-pointer border-black hover:opacity-90 transition-opacity object-cover sm:w-[590px] sm:h-[400px]"
+            onclick="openLightbox(this)"
+          />
         </div>
       </section>
       <!-- Photo and Floating Item Section Desktop Mode-->
       <section class="hidden md:inline">
-        <div class="max-w-7xl h-lvh bg-white mx-auto px-4 py-8 relative flex justify-center items-center">
+        <div
+          class="max-w-7xl h-lvh bg-white mx-auto px-4 py-8 relative flex justify-center items-center"
+        >
           <div class="image-container top-1/2">
             <img
+              id="MainPhoto2"
               src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746176990/14_quwc8k.png"
               alt=""
               class="cursor-pointer border-black hover:opacity-90 transition-opacity object-cover sm:w-[590px] sm:h-[400px]"
@@ -848,7 +852,9 @@
             const galleryImages = document.querySelectorAll(
               '[onclick="openLightbox(this)"]'
             ); // Select all images with openLightbox handler
-
+            const galleryImagesMainPhoto = document.getElementById("MainPhoto");
+            const galleryImagesMainPhoto2 =
+              document.getElementById("MainPhoto2");
             // State variables
             let currentIndex = 0;
             let touchStartX = 0;
@@ -866,6 +872,13 @@
               setTimeout(() => {
                 lightbox.classList.add("active");
               }, 10);
+
+              if (galleryImagesMainPhoto) {
+                galleryImagesMainPhoto.classList.add("hidden");
+              }
+              else if (galleryImagesMainPhoto2) {
+                galleryImagesMainPhoto2.classList.add("hidden");
+              }
 
               document.body.style.overflow = "hidden";
               isLightboxOpen = true;
