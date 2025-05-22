@@ -33,512 +33,133 @@
         }
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <style>
+      /* Custom style for lightbox transition */
+      .lightbox {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .lightbox-image-container {
+        transition: transform 0.3s ease;
+        transform: scale(0.95);
+      }
+      .lightbox.active .lightbox-image-container {
+        transform: scale(1);
+      }
+      .swipe-left {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      .swipe-right {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      /* Hide arrows on mobile */
+      @media (max-width: 768px) {
+        .desktop-arrows {
+          display: none !important;
+        }
+      }
       .image-container img {
         display: block !important;
-        border: 1px solid black !important;
+        border: 2px solid black !important;
         position: relative !important;
         z-index: 1 !important;
         transform: translateZ(0) !important;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap"
+      rel="stylesheet"
+    />
+
     <title>Yearbook</title>
   </head>
 
-  <body class="pt-20">
-    <!-- Navigation Bar -->
-    <nav
-      class="fixed top-0 w-full bg-schoolPrimary bg-blue-50 text-black shadow-md z-50"
-    >
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="flex justify-between items-center h-20">
-          <!-- Logo and School Name -->
-          <div class="flex items-center space-x-3 sm:ml-8 lg:ml-24">
-            <a href="index.html"
-              ><img
-                src="	https://sekolahkristencalvin.org/web/image/website/1/logo/Sekolah%20Kristen%20Calvin?unique=3b57578"
-                alt="School Logo"
-                width="150"
-                height="130"
-                class=""
-              />
-            </a>
-          </div>
-
-          <!-- Desktop Menu -->
-          <div class="hidden md:flex items-center space-x-1">
-            <!-- School Event Dropdown -->
-            <div class="relative group px-6 font-serif">
-              <button class="py-2 hover:bg-schoolSecondary rounded transition">
-                School Event
-              </button>
-              <!-- Mega Menu -->
-              <div
-                class="absolute w-[500px] h-[210px] bg-blue-50 text-gray-800 shadow-xl rounded-b-lg hidden group-hover:block p-4"
-              >
-                <div
-                  class="flex justify-start flex-wrap mega-menu gap-x-10 gap-y-6 max-w-7xl mx-auto"
-                >
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      MPLS
-                    </a>
-                  </div>
-
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Glue Angkatan
-                    </a>
-                  </div>
-
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      P5 Pertama
-                    </a>
-                  </div>
-
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Fieldtrip 1
-                    </a>
-                  </div>
-
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Field Trip 2
-                    </a>
-                  </div>
-
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Live in
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Padang
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Glue 2023
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Glue 2024
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      P5 Study Tour
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Sports Day
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Retreat
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      P5 Terakhir
-                    </a>
-                  </div>
-                  <div class="w-20">
-                    <a
-                      href=""
-                      class="text-xs border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Perpisahan
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Other Nav Item -->
-            <div class="relative group px-6 font-serif">
-              <button class="py-2 hover:bg-schoolSecondary rounded transition">
-                Class
-              </button>
-              <div
-                class="absolute w-64 bg-blue-50 text-gray-800 shadow-xl rounded-b-lg hidden group-hover:block p-4"
-              >
-                <div
-                  class="flex flex-row justify-start flex-wrap mega-menu gap-x-10 gap-y-6 max-w-7xl mx-auto"
-                >
-                  <a href="">FMES</a>
-                  <a href="">BKES</a>
-                  <a href="">KGES</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="relative group px-6 font-serif">
-              <button class="py-2 hover:bg-schoolSecondary rounded transition">
-                Yearbook Archives
-              </button>
-              <div
-                class="absolute w-64 bg-blue-50 text-gray-800 shadow-xl rounded-b-lg hidden group-hover:block p-4"
-              >
-                <div
-                  class="flex flex-row justify-start flex-wrap mega-menu gap-x-10 gap-y-6 max-w-7xl mx-auto"
-                >
-                  <a class="font-serif text-sm" href="Teachers.html">Teachers</a>
-                  <a class="font-serif text-sm" href="GroupPhotos.html"
-                    >Group Photos</a
-                  >
-                </div>
-              </div>
-            </div>
-            <a
-              href="#"
-              class="px-6 py-2 font-serif hover:bg-schoolSecondary rounded transition"
-              >Soft Copy Yearbook</a
-            >
-          </div>
-
-          <!-- Mobile Menu Button -->
-          <div class="md:hidden">
-            <button id="mobile-menu-button" class="p-2 focus:outline-none">
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-schoolSecondary pb-4">
-          <div class="px-2 pt-2 pb-3 space-y-1">
-            <!-- School Event Dropdown Mobile -->
-            <div class="relative px-3 py-2">
-              <button
-                id="mobile-event-button-SchoolEvent"
-                class="w-full text-left rounded-md text-white hover:bg-schoolPrimary flex justify-between items-center"
-              >
-                School Event
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-              <div
-                id="mobile-event-menu-SchoolEvent"
-                class="hidden pl-4 mt-2 space-y-2"
-              >
-                <div class="grid grid-cols-3 h-56">
-                  <div class=" ">
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      MPLS
-                    </a>
-                  </div>
-
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Glue Angkatan
-                    </a>
-                  </div>
-
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      P5 Pertama
-                    </a>
-                  </div>
-
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Fieldtrip 1
-                    </a>
-                  </div>
-
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Field Trip 2
-                    </a>
-                  </div>
-
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Live in
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Padang
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Glue 2023
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Glue 2024
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      P5 Study Tour
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Sports Day
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs border-b font-serif border-gray-200 pb-2 mb-2"
-                    >
-                      Retreat
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs font-serif border-b border-gray-200 pb-2 mb-2"
-                    >
-                      P5 Terakhir
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href=""
-                      class="text-xs font-serif border-b border-gray-200 pb-2 mb-2"
-                    >
-                      Perpisahan
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="relative px-3 py-2">
-              <button
-                id="mobile-event-button-Class"
-                class="w-full text-left rounded-md text-white hover:bg-schoolPrimary flex justify-between items-center"
-              >
-                Class
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-              <div
-                id="mobile-event-menu-Class"
-                class="hidden pl-4 mt-2 space-y-2"
-              >
-                <div class="grid grid-cols-3">
-                  <a class="font-serif m-2 text-sm" href="FMES.html">FMES</a>
-                  <a class="m-2 text-sm" href="BKES.html">BKES</a>
-                  <a class="m-2 text-sm" href="KGES.html">KGES</a>
-                </div>
-              </div>
-            </div>
-            <div class="relative px-3 py-2">
-              <button
-                id="mobile-event-button-YBArchives"
-                class="w-full text-left rounded-md text-white hover:bg-schoolPrimary flex justify-between items-center"
-              >
-                Yearbook Archives
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-              <div
-                id="mobile-event-menu-YBArchives"
-                class="hidden pl-4 mt-2 space-y-2"
-              >
-                <div class="grid grid-cols-2">
-                  <a class="m-2 font-serif text-sm" href="Teachers.html"
-                    >Teachers</a
-                  >
-                  <a class="m-2 font-serif text-sm" href="GroupPhotos.html"
-                    >Group Photos</a
-                  >
-                </div>
-              </div>
-            </div>
-            <a
-              href="#"
-              class="block px-3 py-2 rounded-md text-white hover:bg-schoolPrimary"
-              >Soft Copy Yearbook</a
-            >
-          </div>
-        </div>
-      </div>
-    </nav>
-
+  <body class="">
+    <div id="navbar-container"></div>
     <script>
-      // Mobile menu toggle
-      const mobileMenuButton = document.getElementById("mobile-menu-button");
-      const mobileMenu = document.getElementById("mobile-menu");
+      // Improved fetch implementation
+      async function loadNavbar() {
+        const response = await fetch("navbar.html");
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
 
-      mobileMenuButton.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
+        // Insert navbar HTML
+        document.getElementById("navbar-container").innerHTML =
+          doc.querySelector("body").innerHTML;
+      }
+      loadNavbar();
+    </script>
+    <script>
+      // Navbar functionality for all pages
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        document.addEventListener("click", function (e) {
+          // Handle mobile menu button
+          if (e.target.closest("#mobile-menu-button")) {
+            const mobileMenu = document.getElementById("mobile-menu");
+            mobileMenu.classList.toggle("hidden");
+            e.preventDefault();
+          }
+
+          // Handle mobile dropdown buttons
+          const dropdownButtons = [
+            "mobile-event-button-SchoolEvent",
+            "mobile-event-button-Class",
+            "mobile-event-button-YBArchives",
+          ];
+
+          if (dropdownButtons.some((id) => e.target.closest(`#${id}`))) {
+            const buttonId = e.target.closest("[id]").id;
+            const menuId = buttonId.replace("button", "menu");
+            const menu = document.getElementById(menuId);
+            if (menu) {
+              menu.classList.toggle("hidden");
+            }
+            e.preventDefault();
+          }
+
+          // Close dropdowns when clicking outside
+          if (
+            !e.target.closest(".relative") &&
+            !e.target.closest("#mobile-menu-button")
+          ) {
+            document
+              .querySelectorAll('[id^="mobile-event-menu"]')
+              .forEach((menu) => {
+                menu.classList.add("hidden");
+              });
+          }
+        });
       });
-
-      // Mobile event menu toggle
-      const mobileEventButton = document.getElementById(
-        "mobile-event-button-SchoolEvent"
-      );
-      const mobileEventMenu = document.getElementById(
-        "mobile-event-menu-SchoolEvent"
-      );
-      const mobileEventButtonClass = document.getElementById(
-        "mobile-event-button-Class"
-      );
-      const mobileEventMenuClass = document.getElementById(
-        "mobile-event-menu-Class"
-      );
-      const mobileEventButtonYearbookArchives = document.getElementById(
-        "mobile-event-button-YBArchives"
-      );
-      const mobileEventMenuYearbookArchives = document.getElementById(
-        "mobile-event-menu-YBArchives"
-      );
-
-      mobileEventButtonClass.addEventListener("click", () => {
-        mobileEventMenuClass.classList.toggle("hidden");
-      });
-
-      mobileEventButton.addEventListener("click", () => {
-        mobileEventMenu.classList.toggle("hidden");
-      });
-      mobileEventButtonYearbookArchives.addEventListener("click", () => {
-        mobileEventMenuYearbookArchives.classList.toggle("hidden");
-      });
-
-      mobile;
     </script>
 
     <!-- Page Content -->
-    <main class="">
+    <main class="mt-20">
       <!-- Photo and Floating Item Section -->
       <section
         class="max-w-7xl h-lvh relative flex justify-center items-center bg-white mx-auto px-4 py-8"
@@ -553,25 +174,25 @@
         </div>
         <!-- bebek -->
         <img
-          class="md:w-28 md:h-28 md:left-12 md:top-[350px] absolute"
+          class="w-24 h-24 top-11 right-0 md:w-28 md:h-28 md:left-12 md:top-[350px] absolute"
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803809/53_huzxia.png"
           alt=""
         />
         <!-- Jaket kuning -->
         <img
-          class="w-28 absolute md:right-52 h-28 rotate-45 md:top-32"
+          class="w-28 bottom-0 right-6 absolute md:right-52 h-28 rotate-45 md:top-32"
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803806/51_wqggze.png"
           alt=""
         />
         <!-- Tas Drn -->
         <img
-          class="w-28 h-28 absolute md:left-56 -rotate-45 md:top-8"
+          class="w-28 h-28 right-24 top-14 absolute md:left-56 -rotate-45 md:top-8"
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803806/54_mlgwzj.png"
           alt=""
         />
         <!-- Bola -->
         <img
-          class="w-28 h-28 absolute md:left-48 md:top-48"
+          class="w-28 h-28 left-0 top-6 absolute md:left-48 md:top-48"
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803803/47_rrlgz8.png"
           alt=""
         />
@@ -583,7 +204,7 @@
         />
         <!-- Kertas UL -->
         <img
-          class="absolute w-28 h-28 rotate-[24deg] md:top-2 md:right-80"
+          class="absolute w-28 h-28 top-44 right-72 -rotate-[24deg] md:rotate-[24deg] md:top-2 md:right-80"
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803802/37_xszw79.png"
           alt=""
         />
@@ -591,7 +212,7 @@
         <!-- Alkitab -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803801/55_nw41ga.png"
-          class="w-28 h-28 md:right-48 md:bottom-44 absolute"
+          class="w-28 h-28 right-6 bottom-52 md:right-48 md:bottom-44 absolute"
           alt=""
         />
         <!-- Sepatu ftsl -->
@@ -604,7 +225,7 @@
         <!-- Biola -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803800/50_ehij6o.png"
-          class="h-28 w-28 absolute md:top-2 md:right-[180px]"
+          class="h-28 w-28 top-36 right-44 absolute md:top-2 md:right-[180px]"
           alt=""
         />
 
@@ -614,7 +235,7 @@
           class="h-28 w-28 absolute md:left-[500px] md:top-2"
           alt=""
         />
-        <!-- Turtel -->
+        <!-- Turtle -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803798/48_colifv.png"
           class="h-28 w-28 absolute md:right-2 md:top-2"
@@ -630,7 +251,7 @@
         <!-- Buku catetan besar -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803797/44_er1qky.png"
-          class="w-28 h-28 absolute md:right-16 md:top-[370px] -rotate-90"
+          class="w-28 h-28 absolute top-44 right-12 md:right-16 md:top-[370px] -rotate-90"
           alt=""
         />
 
@@ -651,13 +272,13 @@
         <!-- Buku Putih -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803796/43_orohvj.png"
-          class="w-28 h-28 absolute md:bottom-0 md:right-48 rotate-90"
+          class="w-28 h-28 absolute bottom-44 right-32 md:bottom-0 md:right-48 rotate-90"
           alt=""
         />
         <!-- Catetan Kecil  -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803795/41_mkytkd.png"
-          class="w-28 h-28 absolute md:bottom-24 md:right-48"
+          class="w-28 h-28 absolute bottom-64 right-44 md:bottom-24 md:right-48"
           alt=""
         />
         <!-- Maket -->
@@ -670,20 +291,20 @@
         <!-- Basket -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803792/36_gzv89k.png"
-          class="absolute w-28 h-28 md:bottom-0 md:right-96"
+          class="absolute w-28 h-28 bottom-0 right-64 md:bottom-0 md:right-96"
           alt=""
         />
 
         <!-- Buku Bacaan -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803790/40_kzolyp.png"
-          class="absolute w-28 h-28 md:bottom-36 -rotate-90 md:left-48"
+          class="absolute w-28 h-28 bottom-24 left-72 md:bottom-36 rotate-45 md:-rotate-90 md:left-48"
           alt=""
         />
         <!-- Kartu -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803789/33_mur5ut.png"
-          class="absolute w-28 h-28 md:top-0 md:left-0"
+          class="absolute w-28 h-28 md:top-0 top-56 left-36 md:left-0"
           alt=""
         />
         <!-- UL -->
@@ -701,25 +322,25 @@
         <!-- laptop -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803769/17_juv3qi.png"
-          class="absolute w-28 h-28 rotate-90 md:bottom-0 md:left-96"
+          class="absolute w-28 h-28 rotate-90 bottom-56 left-3 md:bottom-0 md:left-96"
           alt=""
         />
         <!-- botol heidi -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803768/23_v8pzaq.png"
-          class="absolute w-28 h-28 md:left-0 md:bottom-0"
+          class="absolute w-28 h-28 md:left-0 bottom-24 left-0 md:bottom-0"
           alt=""
         />
         <!-- Piala -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803753/4_rlmgf3.png"
-          class="absolute w-28 h-28 md:bottom-2 md:left-44"
+          class="absolute w-28 h-28 bottom-12 left-44 md:bottom-2 md:left-44"
           alt=""
         />
         <!-- Ipad Ern -->
         <img
           src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1745803753/3_em9ble.png"
-          class="absolute w-28 h-28 md:right-0 md:bottom-2"
+          class="absolute w-28 h-28 bottom-36 right-56 md:right-0 md:bottom-2"
           alt=""
         />
         <!-- Ipad Juan -->
@@ -728,6 +349,646 @@
           class="absolute md:right-[500px] w-28 h-28 md:top-2"
           alt=""
         />
+      </section>
+
+      <section class="w-full h-full p-2 flex flex-col items-center bg-gray-100">
+        <div>
+          <h1 class="Title1 text-black">Students</h1>
+          <style>
+            .Title1 {
+              font-family: "Mea Culpa", sans-serif;
+              font-weight: bold;
+              font-size: 3rem;
+              margin-top: 2rem;
+            }
+          </style>
+        </div>
+
+        <div class="w-full h-fit">
+          <div class="p-5 sm:p-2">
+            <div
+              class="columns-2 sm:pt-6 gap-6 sm:gap-2 sm:columns-6 md:columns-6 [&>img:not(:first-child)]:mt-16"
+            >
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802716/8_pbkhvz.png"
+                alt="Emilly Christabelle Surjawinata"
+                data-names=""
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802716/11_avgbt9.png"
+                alt="Zefanya Fredella Adrian"
+                data-names=""
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802716/51_rmmtor.png"
+                alt="Jesselyn Lucetta Kosasih"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802716/16_pus5ch.png"
+                alt="Ezra Abdiel Setiawan Hoe"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802717/7_p1d4ja.png"
+                alt="Shandy Keona Putri"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802718/9_ynvspv.png"
+                alt="Davine Natasha Arianto"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802718/19_eqwvxx.png"
+                alt="Zovan Christiano Efendi"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802718/12_yk3fk7.png"
+                alt="Niavilda Tiniar"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802717/15_io0jhv.png"
+                alt="Gerald Benedict Setiawan"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802718/20_vyqs8u.png"
+                alt="Emilly Kwok"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747817086/erasebg-transformed_wcejsp.png"
+                alt="Jess Milly Pangestu"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802718/25_mbcsez.png"
+                alt="Beatrice Emanuella Alika Napitupulu"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802718/22_lhwkzx.png"
+                alt="Eirena Imanuela Giverthy Tatontos"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802719/31_hxdv4u.png"
+                alt="Brandon Christian"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802719/28_k1drst.png"
+                alt="Iona Keiko"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802719/27_lb6sxi.png"
+                alt="Joshe Kay Pillarson"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802720/35_dpbjnr.png"
+                alt="Stefani Zaki Zain"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802719/30_amcknx.png"
+                alt="Lynetta Junia"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802721/36_oqs0xt.png"
+                alt="Vincent Hansel Lie"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802723/37_trocur.png"
+                alt="Trifena Luciani Huang"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802723/38_skpdkw.png"
+                alt="Jared Tobias Sentiyono"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802724/43_z5fwhh.png"
+                alt="Felix Emmanuel"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802724/39_yimleq.png"
+                alt="Ruben Gunawan"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802726/55_k9ko4l.png"
+                alt="Felicia Christy Amanda"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802725/45_mqexqp.png"
+                alt="Aaron Subroto"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802724/53_awkjff.png"
+                alt="Audrey Nikki Joe"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802726/57_uotmm1.png"
+                alt="Jocasta Antly Annabel"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802727/1_cwelkg.png"
+                alt="Patricia Chandra"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802727/62_embfab.png"
+                alt="Juan Lidang Justin Simanjuntak"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802728/2_l1rvyw.png"
+                alt="Patrizio Rufus"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802728/3_jcyxpr.png"
+                alt="Maxwell Christian Epaphras"
+                class="cursor-pointer hover:opacity-90 transition-opacity mt-6 sm:mt-0"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802729/5_fauxax.png"
+                alt="Hosea Guwanto"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802730/14_jo8vam.png"
+                alt="Collin Pierson"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802730/23_bfzggx.png"
+                alt="Angelica Sharon"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802731/29_ws2afl.png"
+                alt="Timothy Noel Riyanto"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802732/32_ecntdo.png"
+                alt="Carmello Mahardika Susilo"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802731/26_otevye.png"
+                alt="Patricia Grace Marpaung"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802733/33_i1ghkv.png"
+                alt="Cheernline Chen"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802733/34_jtxw7d.png"
+                alt="Daniella Janice Cenderakiawan"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802734/40_apvnk4.png"
+                alt="Naomi Kezia Adeline"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802735/50_yf7jna.png"
+                alt="Jennifer Manik"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802736/54_pcenmm.png"
+                alt="Josephine Kezia"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802736/58_shfwmm.png"
+                alt="Bryan Karel Lunata"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802737/60_fojk16.png"
+                alt="Kevin Chandra"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802737/59_z22di3.png"
+                alt="Siaw Pani"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802738/63_mm8okz.png"
+                alt="Olivia Chung"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802738/4_dcyxzi.png"
+                alt="Clairine Aurel Aliwarga"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802739/6_lhreuz.png"
+                alt="Hoshi Hari Putri"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802740/10_ten260.png"
+                alt="Gamaliel Togu Hotasi Limbong"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802741/13_jnivhe.png"
+                alt="Lydia Janice Natanhia Samosir"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802741/17_euxx7o.png"
+                alt="Samantha Hezka "
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802742/18_pwuqe0.png"
+                alt="Levi Hidajat"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802742/21_mf3kv4.png"
+                alt="Phoebe Kezia Hadiwinata"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              /><img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802743/24_tksteu.png"
+                alt="Josiah Rephael Dinata"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802744/41_lgbsiw.png"
+                alt="Arion Togi Mindo Napitupulu"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802744/42_lc8kqt.png"
+                alt="Darren Makmur"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802745/47_i5fuqa.png"
+                alt="Timothy Lamhot Agung Beltsazar Magnify Sitorus"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802745/44_gjxexa.png"
+                alt="Divya Hadassah Kurli "
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802746/48_fgjvjw.png"
+                alt="Joanne Andrea Lie"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802747/49_dinxeq.png"
+                alt="Rayna Gunadi"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802748/52_qaxbhz.png"
+                alt="Ghaudy Kateluna Soendjojo"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802749/56_u2ydkc.png"
+                alt="John Likhi"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802749/64_oir9eg.png"
+                alt="Gracia Christy"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802749/61_whd1fm.png"
+                alt="Kaytleen Joan Lonnie Simanjuntak"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802748/52_qaxbhz.png"
+                alt="Heidi Madeleine Wiranata"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1747802750/66_qdvy6j.png"
+                alt="Trifosa Luciani Huang"
+                class="cursor-pointer hover:opacity-90 transition-opacity"
+                onclick="openLightbox(this)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="lightbox"
+          class="fixed inset-0 bg-white bg-opacity-90 z-50 flex items-center justify-center p-4 lightbox"
+        >
+          <div class="lightbox-content relative max-w-6xl w-full">
+            <!-- Close Button -->
+            <button
+              onclick="closeLightbox()"
+              class="absolute -top-12 right-0 sm:top-2 sm:right-6 bg-black bg-opacity-20 hover:bg-opacity-30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all z-50"
+              aria-label="Close lightbox"
+            >
+              &times;
+            </button>
+            <!-- Lightbox Image Container -->
+            <div class="relative overflow-hidden">
+              <img
+                id="lightbox-image"
+                src=""
+                alt=""
+                class="lightbox-image max-h-[80vh] w-auto mx-auto rounded-lg shadow-xl"
+              />
+            </div>
+
+            <!-- DESKTOP-ONLY ARROWS -->
+            <button
+              onclick="navigateLightbox1(-1)"
+              class="desktop-arrows absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 rounded-full hover:bg-opacity-70 focus:outline-none"
+            >
+              &larr;
+            </button>
+            <button
+              onclick="navigateLightbox1(1)"
+              class="desktop-arrows absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 rounded-full hover:bg-opacity-70 focus:outline-none"
+            >
+              &rarr;
+            </button>
+
+            <!-- Caption -->
+            <div
+              id="lightbox-caption"
+              class="text-black tangerine-bold text-center mt-4 text-5xl font-medium"
+            ></div>
+            <style>
+              .tangerine-regular {
+                font-family: "Tangerine", cursive;
+                font-weight: 400;
+                font-style: normal;
+              }
+
+              .tangerine-bold {
+                font-family: "Tangerine", cursive;
+                font-weight: 700;
+                font-style: normal;
+              }
+            </style>
+            <div
+              id="lightbox-subcaption"
+              class="text-white text-center mt-2 text-lg font-medium"
+            ></div>
+          </div>
+        </div>
+        <script>
+          // Lightbox functionality
+          document.addEventListener("DOMContentLoaded", function () {
+            // Get all elements
+            const lightbox = document.getElementById("lightbox");
+            const lightboxImage = document.getElementById("lightbox-image");
+            const lightboxCaption = document.getElementById("lightbox-caption");
+            const lightboxSubcaption = document.getElementById(
+              "lightbox-subcaption"
+            );
+            const galleryImages = document.querySelectorAll(
+              '[onclick="openLightbox(this)"]'
+            ); // Select all images with openLightbox handler
+
+            // State variables
+            let currentIndex = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isLightboxOpen = false;
+
+            // Open lightbox with specific image
+            function openLightbox(imgElement) {
+              currentIndex = Array.from(galleryImages).indexOf(imgElement);
+              lightboxImage.src = imgElement.src;
+              lightboxCaption.textContent = imgElement.alt || "";
+              lightboxSubcaption.textContent = imgElement.dataset.names || "";
+
+              lightbox.classList.remove("hidden");
+              setTimeout(() => {
+                lightbox.classList.add("active");
+              }, 10);
+
+              document.body.style.overflow = "hidden";
+              isLightboxOpen = true;
+
+              // Add history state to handle back button
+              window.history.pushState({ lightbox: true }, "");
+            }
+
+            // Close lightbox
+            function closeLightbox() {
+              lightbox.classList.remove("active");
+              setTimeout(() => {
+                lightbox.classList.add("hidden");
+                document.body.style.overflow = "";
+                isLightboxOpen = false;
+              }, 300);
+
+              // Remove the lightbox state from history
+              if (window.history.state?.lightbox) {
+                window.history.back();
+              }
+            }
+
+            // Navigate between images
+            function navigateLightbox1(direction, isSwipe = false) {
+              currentIndex += direction;
+
+              // Wrap around if at ends
+              if (currentIndex < 0) {
+                currentIndex = galleryImages.length - 1;
+              } else if (currentIndex >= galleryImages.length) {
+                currentIndex = 0;
+              }
+
+              const img = galleryImages[currentIndex];
+
+              if (isSwipe) {
+                // Add swipe animation
+                lightboxImage.classList.add(
+                  direction > 0 ? "swipe-left" : "swipe-right"
+                );
+
+                // After animation completes
+                setTimeout(() => {
+                  lightboxImage.src = img.src;
+                  lightboxCaption.textContent = img.alt || "";
+                  lightboxSubcaption.textContent = img.dataset.names || "";
+                  lightboxImage.classList.remove("swipe-left", "swipe-right");
+                }, 400);
+              } else {
+                // Regular navigation
+                lightboxImage.src = img.src;
+                lightboxCaption.textContent = img.alt || "";
+                lightboxSubcaption.textContent = img.dataset.names || "";
+              }
+            }
+
+            // Touch events for mobile swipe
+            function handleTouchStart(e) {
+              touchStartX = e.changedTouches[0].screenX;
+            }
+
+            function handleTouchEnd(e) {
+              touchEndX = e.changedTouches[0].screenX;
+              handleSwipe();
+            }
+
+            function handleSwipe() {
+              const swipeThreshold = 50; // Minimum swipe distance in pixels
+
+              if (touchStartX - touchEndX > swipeThreshold) {
+                // Swipe left - next image
+                navigateLightbox1(1, true);
+              } else if (touchEndX - touchStartX > swipeThreshold) {
+                // Swipe right - previous image
+                navigateLightbox1(-1, true);
+              }
+            }
+
+            // Keyboard navigation
+            function handleKeyDown(e) {
+              if (!isLightboxOpen) return;
+
+              switch (e.key) {
+                case "Escape":
+                  closeLightbox();
+                  break;
+                case "ArrowLeft":
+                  navigateLightbox1(-1);
+                  break;
+                case "ArrowRight":
+                  navigateLightbox1(1);
+                  break;
+              }
+            }
+
+            // Handle browser back button
+            window.addEventListener("popstate", function (e) {
+              if (isLightboxOpen) {
+                closeLightbox();
+              }
+            });
+
+            // Initialize event listeners
+            function initLightbox() {
+              // Add touch events for mobile swipe
+              lightboxImage.addEventListener("touchstart", handleTouchStart, {
+                passive: true,
+              });
+              lightboxImage.addEventListener("touchend", handleTouchEnd, {
+                passive: true,
+              });
+
+              // Keyboard events
+              document.addEventListener("keydown", handleKeyDown);
+
+              // Close when clicking outside image
+              lightbox.addEventListener("click", function (e) {
+                if (e.target === lightbox) {
+                  closeLightbox();
+                }
+              });
+            }
+
+            // Expose functions to global scope for HTML onclick attributes
+            window.closeLightbox = closeLightbox;
+            window.navigateLightbox1 = navigateLightbox1;
+            window.openLightbox = openLightbox;
+
+            // Initialize
+            initLightbox();
+          });
+        </script>
       </section>
     </main>
   </body>

@@ -27,7 +27,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <link
@@ -745,7 +753,6 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
           </div>
         </aside>
 
-        
         <aside
           class="w-full h-64 p-5 sm:p-8 sm:h-[410px] flex items-center justify-start"
         >
@@ -755,7 +762,10 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
               src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1746351254/_DSF4433_fmpvpk.jpg"
               alt="PJOK"
               onclick="openLightbox(this)"
-              data-names=""/>
+              data-names="Angkatan ini kelihatan di luar tenang tetapi sebenarnya banyak pergumulan yang kalian hadapi terutama masalah relasi dan komunikasi. Suka saling menyindir satu dengan yang lain, baperan, emosional, dan pertemanan yang hanya fokus pada circle sendiri. Kelihatan suka sebenarnya tidak, kelihatan baik-baik saja sebenarnya banyak hal yang tidak bisa kalian ungkapkan dengan kata-kata. Tetapi kalian bisa melewati itu semua sampai kalian bisa menyelesaikan olah raga peminatan dengan baik walaupun masih banyak yang perlu diperbaiki. Tetaplah jaga kesehatan tubuh kalian dengan cara menjaga pola makan, istirahat yang cukup, dan olahraga yang teratur. Kemana pun  kalian nanti, usahakanlah berolahraga minimal 15 menit setiap hari. Belajarlah untuk disiplin, jujur dan bertanggung jawab. 
+
+Tetaplah saling mengasihi dan saling mendoakan satu dengan yang lain. Salam Olah raga🙏 ~ Bu Justiar"
+            />
           </div>
           <div class="ml-2 sm:inline-block hidden relative w-1/2 h-full">
             <div class="absolute bottom-0">
@@ -795,8 +805,21 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
             <!-- Caption -->
             <div
               id="lightbox-caption"
-              class="text-white text-center mt-6 text-2xl font-medium"
+              class="text-white tangerine-bold text-center mt-6 text-4xl font-medium"
             ></div>
+            <style>
+              .tangerine-regular {
+                font-family: "Tangerine", cursive;
+                font-weight: 400;
+                font-style: normal;
+              }
+
+              .tangerine-bold {
+                font-family: "Tangerine", cursive;
+                font-weight: 700;
+                font-style: normal;
+              }
+            </style>
             <div
               id="lightbox-subcaption"
               class="text-white text-justify mt-6 text-lg font-medium"
@@ -845,6 +868,9 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
           let currentIndex = 0;
           let touchStartX = 0;
           let touchEndX = 0;
+          let lightboxOpen = false;
+          let historyStateAdded = false;
+
           const lightboxImage = document.getElementById("lightbox-image");
           const lightbox = document.getElementById("lightbox");
           const lightboxContent = document.querySelector(".lightbox-content"); // Add this class to your lightbox content div
@@ -889,6 +915,13 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
             // Allow lightbox content scrolling
             lightboxContent.style.overflowY = "auto";
             lightboxContent.style.maxHeight = "90vh"; // Limit height with viewport units
+
+            // OpenLightbox
+            lightboxOpen = true;
+            if (!historyStateAdded) {
+              window.history.pushState({ lightbox: true }, "", "");
+              historyStateAdded = true;
+            }
           }
 
           // Close lightbox
@@ -906,6 +939,13 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
             // Clean up touch events
             lightboxImage.removeEventListener("touchstart", handleTouchStart);
             lightboxImage.removeEventListener("touchend", handleTouchEnd);
+
+            lightboxOpen = false;
+            historyStateAdded = false;
+
+            if (window.history.state && window.history.state.lightbox) {
+              window.history.back();
+            }
           }
 
           // Touch handlers
@@ -940,6 +980,18 @@ Juga ini: jangan lupa Tuhan dan apa yang Ia sudah kerjakan bagi kita di dalam Ye
               } else if (e.key === "ArrowRight") {
                 navigateLightbox(1);
               }
+            }
+          });
+
+          window.addEventListener("popstate", function (event) {
+            if (lightboxOpen) {
+              closeLightbox();
+
+              // This prevents the default back navigation
+              if (event.state && event.state.lightbox) {
+                history.pushState({ lightbox: true }, "", "");
+              }
+              event.preventDefault();
             }
           });
         </script>

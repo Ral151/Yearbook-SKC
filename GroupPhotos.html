@@ -27,6 +27,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap"
       rel="stylesheet"
     />
@@ -447,12 +451,10 @@
         <!-- Lightbox -->
         <div
           id="lightbox"
-          class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 lightbox "
+          class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 lightbox"
         >
           <div class="lightbox-content relative max-w-6xl w-full">
             <!-- Close Button -->
-
-            <!-- Close Button - Add this inside your lightbox div -->
             <button
               onclick="closeLightbox()"
               class="absolute -top-12 right-0 sm:top-2 sm:right-6 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all z-50"
@@ -487,8 +489,21 @@
             <!-- Caption -->
             <div
               id="lightbox-caption"
-              class="text-white text-center mt-4 text-2xl font-medium"
+              class="text-white tangerine-bold text-center mt-4 text-4xl font-medium"
             ></div>
+            <style>
+              .tangerine-regular {
+                font-family: "Tangerine", cursive;
+                font-weight: 400;
+                font-style: normal;
+              }
+
+              .tangerine-bold {
+                font-family: "Tangerine", cursive;
+                font-weight: 700;
+                font-style: normal;
+              }
+            </style>
             <div
               id="lightbox-subcaption"
               class="text-white text-center mt-2 text-lg font-medium"
@@ -502,6 +517,8 @@
           let currentIndex = 0;
           let touchStartX = 0;
           let touchEndX = 0;
+          let lightboxOpen = false;
+          let historyStateAdded = false;
           const lightboxImage = document.getElementById("lightbox-image");
 
           // Touch event handlers for swipe detection
@@ -555,6 +572,12 @@
 
             // Prevent body scrolling
             document.body.style.overflow = "hidden";
+
+            lightboxOpen = true;
+            if (!historyStateAdded) {
+              window.history.pushState({ lightbox: true }, "", "");
+              historyStateAdded = true;
+            }
           }
           // Close lightbox function - Add this to your script
           function closeLightbox() {
@@ -567,11 +590,19 @@
             setTimeout(() => {
               lightbox.classList.add("hidden");
               document.body.style.overflow = ""; // Re-enable scrolling
-            }, 300); // Must match your CSS transition duration
+            }, 300);
 
             // Clean up touch events
             lightboxImage.removeEventListener("touchstart", handleTouchStart);
             lightboxImage.removeEventListener("touchend", handleTouchEnd);
+
+            lightboxOpen = false;
+            historyStateAdded = false;
+
+            // Optional: Remove the history state if you want
+            if (window.history.state && window.history.state.lightbox) {
+              window.history.back();
+            }
           }
 
           // Navigate between images (with swipe animation if isSwipe is true)
@@ -615,6 +646,18 @@
               if (e.key === "Escape") closeLightbox();
               if (e.key === "ArrowLeft") navigateLightbox(-1);
               if (e.key === "ArrowRight") navigateLightbox(1);
+            }
+          });
+
+          window.addEventListener("popstate", function (event) {
+            if (lightboxOpen) {
+              closeLightbox();
+
+              // This prevents the default back navigation
+              if (event.state && event.state.lightbox) {
+                history.pushState({ lightbox: true }, "", "");
+              }
+              event.preventDefault();
             }
           });
         </script>
