@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      /* Custom style for lightbox transition */
+      .lightbox {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .lightbox-image-container {
+        transition: transform 0.3s ease;
+        transform: scale(0.95);
+      }
+      .lightbox.active .lightbox-image-container {
+        transform: scale(1);
+      }
+      .swipe-left {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      .swipe-right {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      /* Hide arrows on mobile */
+      @media (max-width: 768px) {
+        .desktop-arrows {
+          display: none !important;
+        }
+      }
+    </style>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>BKES</title>
+  </head>
+  <body>
+    <div id="navbar-container"></div>
+    <script>
+      // Improved fetch implementation
+      async function loadNavbar() {
+        const response = await fetch("navbar.html");
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        // Insert navbar HTML
+        document.getElementById("navbar-container").innerHTML =
+          doc.querySelector("body").innerHTML;
+      }
+      loadNavbar();
+    </script>
+    <script>
+      // Navbar functionality for all pages
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        document.addEventListener("click", function (e) {
+          // Handle mobile menu button
+          if (e.target.closest("#mobile-menu-button")) {
+            const mobileMenu = document.getElementById("mobile-menu");
+            mobileMenu.classList.toggle("hidden");
+            e.preventDefault();
+          }
+
+          // Handle mobile dropdown buttons
+          const dropdownButtons = [
+            "mobile-event-button-SchoolEvent",
+            "mobile-event-button-Class",
+            "mobile-event-button-YBArchives",
+          ];
+
+          if (dropdownButtons.some((id) => e.target.closest(`#${id}`))) {
+            const buttonId = e.target.closest("[id]").id;
+            const menuId = buttonId.replace("button", "menu");
+            const menu = document.getElementById(menuId);
+            if (menu) {
+              menu.classList.toggle("hidden");
+            }
+            e.preventDefault();
+          }
+
+          // Close dropdowns when clicking outside
+          if (
+            !e.target.closest(".relative") &&
+            !e.target.closest("#mobile-menu-button")
+          ) {
+            document
+              .querySelectorAll('[id^="mobile-event-menu"]')
+              .forEach((menu) => {
+                menu.classList.add("hidden");
+              });
+          }
+        });
+      });
+    </script>
+    <main class="bg-white w-full h-full">
+      <div class="flex items-center flex-col mt-4">
+        <h1 class="text-black tangerine-bold">A Week in BKES</h1>
+        <style>
+          .tangerine-regular {
+            font-family: "Tangerine", cursive;
+            font-weight: bold;
+            font-style: normal;
+            margin-top: 3rem;
+          }
+          .tangerine-bold {
+            font-family: "Tangerine", cursive;
+            font-weight: bold;
+            font-size: 48px;
+            margin-top: 5.5rem;
+          }
+        </style>
+
+        <!-- Desktop Mode :) -->
+        <section
+          id="TableContainer"
+          class="hidden w-full h-full pl-44 pr-44 pb-4 md:inline"
+        >
+          <heading
+            class="bg-amber-100 grid grid-cols-3 grid-rows-2 w-full h-full border-solid border-black border-2"
+          >
+            <div
+              class="w-full h-full border-black border-r-2 border-b-2"
+              class="object-cover object-center w-[400px] h-[208px]"
+              onclick="openLightbox(this)"
+            >
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748076224/-3_1_podcgy.jpg"
+                alt=""
+                class="cursor-pointer"
+              />
+            </div>
+            <div
+              class="w-full h-full border-black border-r-2 border-b-2 flex flex-col"
+            >
+              <header
+                class="w-full h-10 border-b-2 border-black flex justify-center items-center"
+              >
+                <h1 class="text-black dm-serif-text-regular font-bold text-xl">
+                  Monday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Ekonomi
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778815/%EF%B8%8F_13_esmull.jpg"
+                    alt="Ekonomi"
+                  />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Sejarah Indonesia
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778813/%EF%B8%8F_9_i8s0bz.jpg"
+                    alt="Sejarah Indonesia"
+                  />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Matematika
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778818/%EF%B8%8F_11_uushk4.jpg"
+                    alt="Matematika"
+                  />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Bahasa Inggris
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778816/%EF%B8%8F_12_oanxzt.jpg"
+                    alt="Bahasa Inggris"
+                  />
+                </p>
+              </div>
+            </div>
+            <div class="w-full h-full border-black border-b-2 flex flex-col">
+              <header
+                class="w-full h-10 border-b-2 border-black flex justify-center items-center"
+              >
+                <h1 class="text-black dm-serif-text-regular font-bold text-xl">
+                  Tuesday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ PAK
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778812/%EF%B8%8F_10_1_cxu5rj.jpg"
+                    alt="PAK"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ PKN
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778812/%EF%B8%8F_t5w1nk.jpg"
+                    alt="PKN"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Sosiologi
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588695/%EF%B8%8F_24_zhsb9e.jpg"
+                    alt="Sosiologi"
+                  />
+                </p>
+              </div>
+            </div>
+
+            <div class="w-full h-full border-black border-r-2 flex flex-col">
+              <header
+                class="w-full h-10 border-b-2 border-black flex justify-center items-center"
+              >
+                <h1 class="text-black dm-serif-text-regular text-xl">
+                  Wednesday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Chapel
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588860/%EF%B8%8F_26_tugu7o.jpg"
+                    alt="Chapel"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Kimia
+                  <img class="hidden" src="" alt="Kimia" />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Bahasa Indonesia
+                  <img class="hidden" src="" alt="Bahasa Indonesia" />
+                </p>
+              </div>
+            </div>
+
+            <div class="w-full h-full border-black border-r-2 flex flex-col">
+              <header
+                class="w-full h-10 border-b-2 border-black flex justify-center items-center"
+              >
+                <h1 class="text-black dm-serif-text-regular text-xl">
+                  Thursday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Sejarah Kekristenan
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748589745/%EF%B8%8F_4_zdyecz.jpg"
+                    alt="Sejarah Kekristenan"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  <!-- Add Photo -->
+                  ~ PJOK
+                  <img class="hidden" src="" alt="PJOK" />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Seni Musik
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588963/IMG20250410150438_1_2_nsbiqm.jpg"
+                    alt="Seni Musik"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Seni Rupa
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588687/%EF%B8%8F_25_vofl1x.jpg"
+                    alt="Seni Rupa"
+                  />
+                </p>
+              </div>
+            </div>
+
+            <div class="w-full h-full border-black flex flex-col">
+              <header
+                class="w-full h-10 border-b-2 border-black flex justify-center items-center"
+              >
+                <h1 class="text-black dm-serif-text-regular text-xl">Friday</h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ P5
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748589749/%EF%B8%8F_5_1_wrsgx0.jpg"
+                    alt="P5"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-base cursor-pointer font-serif"
+                >
+                  ~ Biologi
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778818/%EF%B8%8F_14_fhmkcf.jpg"
+                    alt="Biologi"
+                  />
+                </p>
+              </div>
+            </div>
+          </heading>
+        </section>
+
+        <!-- Mobile Mode -->
+        <section
+          class="mobile1 bg-white md:hidden inline w-full h-full pb-8 pt-4 pr-8 pl-8"
+        >
+          <header class="w-full h-full bg-amber-100 flex flex-col">
+            <div
+              class="w-full h-full border-black border-r-2 border-t-2 border-l-2"
+              class="object-cover object-center"
+              onclick="openLightbox(this)"
+            >
+              <img
+                src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748076224/-3_1_podcgy.jpg"
+                alt=""
+                class="cursor-pointer"
+              />
+            </div>
+            <div
+              class="schedule-container w-full border-2 border-black h-64 flex flex-col items-center"
+            >
+              <header
+                class="border-b-2 border-black w-full h-12 flex justify-center items-center"
+              >
+                <h1 class="dm-serif-text-regular text-black text-2xl">
+                  Monday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ Ekonomi
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778815/%EF%B8%8F_13_esmull.jpg"
+                    alt="Ekonomi"
+                  />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-lg mt-3 cursor-pointer font-serif"
+                >
+                  ~ Sejarah Indonesia
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778813/%EF%B8%8F_9_i8s0bz.jpg"
+                    alt="Sejarah Indonesia"
+                  />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ Matematika
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778818/%EF%B8%8F_11_uushk4.jpg"
+                    alt="Matematika"
+                  />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ Bahasa Inggris
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778816/%EF%B8%8F_12_oanxzt.jpg"
+                    alt="Bahasa Inggris"
+                  />
+                </p>
+              </div>
+            </div>
+            <div
+              class="schedule-container w-full border-b-2 border-l-2 border-r-2 border-black h-64 flex flex-col items-center"
+            >
+              <header
+                class="border-b-2 border-black w-full h-12 flex justify-center items-center"
+              >
+                <h1 class="dm-serif-text-regular text-black text-2xl">
+                  Tuesday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ PAK
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778812/%EF%B8%8F_10_1_cxu5rj.jpg"
+                    alt="PAK"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ PKN
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778812/%EF%B8%8F_t5w1nk.jpg"
+                    alt="PKN"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ Sosiologi
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588695/%EF%B8%8F_24_zhsb9e.jpg"
+                    alt="Sosiologi"
+                  />
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="schedule-container w-full border-b-2 border-l-2 border-r-2 border-black h-64 flex flex-col items-center"
+            >
+              <header
+                class="border-b-2 border-black w-full h-12 flex justify-center items-center"
+              >
+                <h1 class="dm-serif-text-regular text-black text-2xl">
+                  Wednesday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ Chapel
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588860/%EF%B8%8F_26_tugu7o.jpg"
+                    alt="Chapel"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  ~ Kimia
+                  <img class="hidden" src="" alt="Kimia" />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-base cursor-pointer font-serif"
+                >
+                  ~ Bahasa Indonesia
+                  <img class="hidden" src="" alt="Bahasa Indonesia" />
+                </p>
+              </div>
+            </div>
+            <div
+              class="schedule-container w-full border-b-2 border-l-2 border-r-2 border-black h-64 flex flex-col items-center"
+            >
+              <header
+                class="border-b-2 border-black w-full h-12 flex justify-center items-center"
+              >
+                <h1 class="dm-serif-text-regular text-black text-2xl">
+                  Thursday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-2 text-lg cursor-pointer font-serif"
+                >
+                  ~ Sejarah Kekristenan
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748589745/%EF%B8%8F_4_zdyecz.jpg"
+                    alt="Sejarah Kekristenan"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black mt-3 text-lg cursor-pointer font-serif"
+                >
+                  <!-- Add Photo -->
+                  ~ PJOK
+                  <img class="hidden" src="" alt="PJOK" />
+                </p>
+
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-lg mt-3 cursor-pointer font-serif"
+                >
+                  ~ Seni Musik
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588963/IMG20250410150438_1_2_nsbiqm.jpg"
+                    alt="Seni Musik"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-lg mt-3 cursor-pointer font-serif"
+                >
+                  ~ Seni Rupa
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748588687/%EF%B8%8F_25_vofl1x.jpg"
+                    alt="Seni Rupa"
+                  />
+                </p>
+              </div>
+            </div>
+            <div
+              class="schedule-container w-full border-b-2 border-l-2 border-r-2 border-black h-64 flex flex-col items-center"
+            >
+              <header
+                class="border-b-2 border-black w-full h-12 flex justify-center items-center"
+              >
+                <h1 class="dm-serif-text-regular text-black text-2xl">
+                  Friday
+                </h1>
+              </header>
+              <div
+                class="schedule flex flex-col justify-start w-full h-full p-2"
+              >
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-lg mt-3 cursor-pointer font-serif"
+                >
+                  ~ P5
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748589749/%EF%B8%8F_5_1_wrsgx0.jpg"
+                    alt="P5"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-lg mt-3 cursor-pointer font-serif"
+                >
+                  ~ Filsafat
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778823/%EF%B8%8F_3_cid2wl.heic"
+                    alt="Filsafat"
+                  />
+                </p>
+                <p
+                  onclick="openLightbox(this)"
+                  class="text-black text-lg mt-3 cursor-pointer font-serif"
+                >
+                  ~ Biologi
+                  <img
+                    class="hidden"
+                    src="https://res.cloudinary.com/dfxf0wmnt/image/upload/v1748778818/%EF%B8%8F_14_fhmkcf.jpg"
+                    alt="Biologi"
+                  />
+                </p>
+              </div>
+            </div>
+          </header>
+        </section>
+      </div>
+      <div
+        id="lightbox"
+        class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 lightbox"
+      >
+        <div class="lightbox-content relative max-w-8xl w-full">
+          <!-- Close Button -->
+          <button
+            onclick="closeLightbox()"
+            class="absolute -top-12 right-0 sm:top-2 sm:right-6 bg-opacity-20 hover:bg-opacity-30 text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all z-50"
+            aria-label="Close lightbox"
+          >
+            &times;
+          </button>
+          <!-- Lightbox Image Container -->
+          <div class="relative overflow-hidden">
+            <img
+              id="lightbox-image"
+              src=""
+              alt=""
+              class="lightbox-image max-h-[70vh] mt-6 w-auto mx-auto rounded-lg shadow-xl"
+            />
+          </div>
+
+          <!-- Caption -->
+          <div
+            id="lightbox-caption"
+            class="text-white tangerine-bold text-center text-4xl font-medium"
+          ></div>
+          <style>
+            .tangerine-regular {
+              font-family: "Tangerine", cursive;
+              font-weight: 400;
+              font-style: normal;
+            }
+
+            .tangerine-bold {
+              font-family: "Tangerine", cursive;
+              font-style: normal;
+            }
+          </style>
+          <div
+            id="lightbox-subcaption"
+            class="text-white text-center text-lg font-medium"
+          ></div>
+        </div>
+      </div>
+      <script>
+        // Lightbox functionality
+        document.addEventListener("DOMContentLoaded", function () {
+          // Get lightbox elements
+          const lightbox = document.getElementById("lightbox");
+          const lightboxImage = document.getElementById("lightbox-image");
+          const lightboxCaption = document.getElementById("lightbox-caption");
+          const lightboxSubcaption = document.getElementById(
+            "lightbox-subcaption"
+          );
+
+          // State variable
+          let isLightboxOpen = false;
+
+          // Open lightbox from <p> element
+          function openLightbox(pElement) {
+            // Find the hidden image inside the <p>
+            const img = pElement.querySelector("img");
+            if (!img) return;
+
+            // Set lightbox content
+            lightboxImage.src = img.src;
+            lightboxCaption.textContent = img.alt || "";
+
+            // Show lightbox
+            lightbox.classList.remove("hidden");
+            setTimeout(() => lightbox.classList.add("active"), 10);
+            document.body.style.overflow = "hidden";
+            isLightboxOpen = true;
+
+            // Add to history for back button support
+            window.history.pushState({ lightbox: true }, "");
+          }
+
+          // Close lightbox
+          function closeLightbox() {
+            lightbox.classList.remove("active");
+            setTimeout(() => {
+              lightbox.classList.add("hidden");
+              document.body.style.overflow = "";
+              isLightboxOpen = false;
+            }, 300);
+
+            // Clean up history state
+            if (window.history.state?.lightbox) {
+              window.history.back();
+            }
+          }
+
+          // Handle keyboard events
+          function handleKeyDown(e) {
+            if (!isLightboxOpen) return;
+
+            if (e.key === "Escape") {
+              closeLightbox();
+            }
+          }
+
+          // Handle browser back button
+          window.addEventListener("popstate", function (e) {
+            if (isLightboxOpen) {
+              closeLightbox();
+            }
+          });
+
+          // Initialize event listeners
+          function init() {
+            // Keyboard events
+            document.addEventListener("keydown", handleKeyDown);
+
+            // Close when clicking outside image (if desired)
+            lightbox.addEventListener("click", function (e) {
+              if (e.target === lightbox) {
+                closeLightbox();
+              }
+            });
+          }
+
+          // Expose functions to global scope
+          window.openLightbox = openLightbox;
+          window.closeLightbox = closeLightbox;
+
+          // Initialize
+          init();
+        });
+      </script>
+      <style>
+        .dm-serif-text-regular {
+          font-family: "DM Serif Text", serif;
+          font-weight: 400;
+          font-style: normal;
+        }
+
+        .dm-serif-text-regular-italic {
+          font-family: "DM Serif Text", serif;
+          font-weight: 400;
+          font-style: italic;
+        }
+      </style>
+    </main>
+  </body>
+</html>

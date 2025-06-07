@@ -873,12 +873,11 @@
                 lightbox.classList.add("active");
               }, 10);
 
+              // Error
               if (galleryImagesMainPhoto) {
-                galleryImagesMainPhoto.classList.add("hidden");
+                galleryImagesMainPhoto2.remove("hidden");
               }
-              else if (galleryImagesMainPhoto2) {
-                galleryImagesMainPhoto2.classList.add("hidden");
-              }
+              
 
               document.body.style.overflow = "hidden";
               isLightboxOpen = true;
